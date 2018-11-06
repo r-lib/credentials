@@ -1,0 +1,17 @@
+Package: credentials
+Type: Package
+Title: Managing Your Git Credentials
+Version: 0.1
+Author: Jeroen Ooms
+Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
+Description: Lookup HTTPS or SSH credentials for git remotes.
+License: MIT + file LICENSE
+SystemRequirements: git (optional)
+Encoding: UTF-8
+Imports:
+    openssl,
+    sys (>= 2.0)
+Suggests: 
+    testthat
+RoxygenNote: 6.1.0
+Roxygen: list(markdown = TRUE)
