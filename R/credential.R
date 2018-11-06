@@ -1,4 +1,4 @@
-#' Lookup passwords from the git credential store
+#' Lookup HTTP passwords from the git credential store
 #'
 #' This requires you have the `git` command line program installed.
 #' [read_http_credential] looks up a suitable username/password from

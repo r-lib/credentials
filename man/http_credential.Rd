@@ -5,7 +5,7 @@
 \alias{read_http_credential}
 \alias{credentials}
 \alias{save_http_credential}
-\title{Lookup passwords from the git credential store}
+\title{Lookup HTTP passwords from the git credential store}
 \usage{
 read_http_credential(url = "https://github.com", git = "git",
   verbose = TRUE)
