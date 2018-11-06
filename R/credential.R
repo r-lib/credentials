@@ -8,8 +8,8 @@
 #'
 #' @export
 #' @family credentials
-#' @rdname http_credential
-#' @name credential
+#' @rdname http_credentials
+#' @name http_credentials
 #' @aliases credentials
 #' @param url target url, possibly including username or path
 #' @param git path of the `git` command line program
@@ -21,7 +21,7 @@ read_http_credential <- function(url = "https://github.com", git = "git", verbos
 }
 
 #' @export
-#' @rdname http_credential
+#' @rdname http_credentials
 save_http_credential <- function(url = "https://github.com", git = "git", verbose = TRUE){
   cred <- parse_url(url)
   credential_reject(cred)

@@ -159,10 +159,6 @@ cred_to_input <- function(data, input = tempfile()){
   return(input)
 }
 
-url_to_input <- function(url){
-  cred_to_input(parse_url(url))
-}
-
 cmd_exists <- function(cmd){
   nchar(Sys.which(cmd)) > 0
 }
