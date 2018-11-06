@@ -1,0 +1,22 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+language: r
+sudo: false
+latex: false
+fortran: false
+pandoc: false
+
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+    - os: linux
+      dist: xenial
+    - os: osx
+      osx_image: xcode9.3
+      brew_packages: openssl
+
+addons:
+  apt:
+    packages:
+    - libssl-dev
+    - git
