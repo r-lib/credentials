@@ -24,8 +24,8 @@
 my_ssh_key <- function(host = "github.com", ssh = "ssh", password = askpass){
   keyfile <- find_ssh_key(host = host, ssh = ssh)
   if(is.null(keyfile)){
-    if(isTRUE(askYesNo("No ssh key found. Generate one? ", default = FALSE,
-                       prompts = c("Yes", "No", "Cancel")))){
+    if(interactive() && isTRUE(askYesNo("No ssh key found. Generate one?",
+                                        FALSE, c("Yes", "No", "Cancel")))){
       keyfile <- ssh_home('id_rsa')
       ssh_keygen(keyfile, open_github = FALSE)
     } else {
@@ -38,7 +38,7 @@ my_ssh_key <- function(host = "github.com", ssh = "ssh", password = askpass){
     openssl::write_ssh(key$pubkey, pubfile)
   }
   list(
-    path = keyfile,
+    key = keyfile,
     pubkey = openssl::write_ssh(openssl::read_pubkey(pubfile))
   )
 }
@@ -50,7 +50,7 @@ my_ssh_key <- function(host = "github.com", ssh = "ssh", password = askpass){
 #' @param open_github automatically open a browser window to let the user
 #' add the key to Github.
 #' @importFrom openssl write_ssh write_pem read_key write_pkcs1
-ssh_keygen <- function(file = ssh_home('id_rsa'), open_github = TRUE){
+ssh_keygen <- function(file = ssh_home('id_rsa'), open_github = interactive()){
   private_key <- normalizePath(file, mustWork = FALSE)
   if(file.exists(private_key)){
     cat(sprintf("Found existing RSA keyspair at: %s\n", private_key), file = stderr())
@@ -58,7 +58,7 @@ ssh_keygen <- function(file = ssh_home('id_rsa'), open_github = TRUE){
   } else {
     cat(sprintf("Generating new RSA keyspair at: %s\n", private_key), file = stderr())
     key <- openssl::rsa_keygen()
-    dir.create(dirname(private_key))
+    dir.create(dirname(private_key), showWarnings = FALSE)
     write_pkcs1(key, private_key)
     write_ssh(key$pubkey, paste0(private_key, '.pub'))
   }
@@ -74,7 +74,7 @@ ssh_keygen <- function(file = ssh_home('id_rsa'), open_github = TRUE){
     utils::browseURL('https://github.com/settings/ssh/new')
   }
   list(
-    path = private_key,
+    key = private_key,
     pubkey = write_ssh(key$pubkey)
   )
 }
@@ -83,9 +83,10 @@ ssh_keygen <- function(file = ssh_home('id_rsa'), open_github = TRUE){
 #' @rdname ssh_credentials
 ssh_home <- function(file = NULL){
   if(length(file)){
-    return(file.path(normalize_home("~/.ssh"), file))
+    normalizePath(file.path(normalize_home("~/.ssh"), file), mustWork = FALSE)
+  } else {
+    normalize_home("~/.ssh")
   }
-  normalize_home("~/.ssh")
 }
 
 

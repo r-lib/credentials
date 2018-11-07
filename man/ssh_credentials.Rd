@@ -9,7 +9,7 @@
 \usage{
 my_ssh_key(host = "github.com", ssh = "ssh", password = askpass)
 
-ssh_keygen(file = ssh_home("id_rsa"), open_github = TRUE)
+ssh_keygen(file = ssh_home("id_rsa"), open_github = interactive())
 
 ssh_home(file = NULL)
 }
