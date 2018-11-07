@@ -65,7 +65,7 @@ ssh_keygen <- function(file = ssh_home('id_rsa'), open_github = interactive()){
 
   # See https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
   conf_file <- file.path(dirname(private_key), 'config')
-  if(!file.exists(conf_file)){
+  if(is_macos() && !file.exists(conf_file)){
     writeLines(c('Host *', '  AddKeysToAgent yes', '  UseKeychain yes',
                  paste('  IdentityFile ', private_key)), con = conf_file)
   }
