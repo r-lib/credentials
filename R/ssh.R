@@ -123,7 +123,16 @@ find_ssh_cmd <- function(ssh){
   if(cmd_exists(ssh))
     return(ssh)
   if(is_windows()){
+    # ask 'git.exe' where it keeps 'ssh.exe'
     git <- Sys.which(find_git_cmd())
+    res <- sys::exec_internal(git, c("-c", "alias.sh=!sh", "sh",
+                       "-c", "cygpath -m $(which ssh)"), error = FALSE)
+    if(res$status == 0L){
+      ssh <- trimws(rawToChar(res$stdout))
+      if(cmd_exists(ssh))
+        return(Sys.which(ssh))
+    }
+    # Fallback: try to find ssh.exe ourselves
     bin <- dirname(git)
     usrbin <- file.path(dirname(bin), "usr", "bin")
     path <- Sys.getenv('PATH')
