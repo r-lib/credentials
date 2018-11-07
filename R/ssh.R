@@ -22,7 +22,15 @@
 #' @param ssh path to your ssh executable (if you have one)
 #' @param password string or callback function for passphrase, see [openssl::read_key]
 my_ssh_key <- function(host = "github.com", ssh = "ssh", password = askpass){
-  keyfile <- ssh_key(host = host, ssh = ssh)
+  keyfile <- find_ssh_key(host = host, ssh = ssh)
+  if(is.null(keyfile)){
+    if(isTRUE(askYesNo("No ssh key found. Generate one? ", FALSE))){
+      keyfile <- ssh_home('id_rsa')
+      ssh_keygen(keyfile, open_github = FALSE)
+    } else {
+      stop("Failed to find ssh key file")
+    }
+  }
   pubfile <- paste0(keyfile, ".pub")
   if(!file.exists(pubfile)){
     key <- openssl::read_key(keyfile, password = password)
@@ -79,8 +87,9 @@ ssh_home <- function(file = NULL){
 }
 
 
-ssh_key <- function(host = "github.com", ssh = "ssh"){
+find_ssh_key <- function(host, ssh){
   key_paths <- tryCatch(ssh_identityfiles(host = host, ssh = ssh), error = function(e){
+    message(e)
     file.path("~/.ssh", c("id_rsa", "id_dsa", "id_ecdsa", "id_ed25519", "id_xmss"))
   })
   key_paths <- normalize_home(key_paths)
@@ -88,16 +97,16 @@ ssh_key <- function(host = "github.com", ssh = "ssh"){
     if(file.exists(i))
       return(i)
   }
-  stop("Failed to find your key file")
+  return(NULL)
 }
 
-ssh_identityfiles <- function(host = "github.com", ssh = "ssh"){
+ssh_identityfiles <- function(host, ssh){
   # Note there can be multiple 'identityfile' entries
   conf <- ssh_config(host = host, ssh = ssh)
   unique(unlist(conf[names(conf) == 'identityfile']))
 }
 
-ssh_config <- function(host = "github.com", ssh = "ssh"){
+ssh_config <- function(host, ssh){
   ssh <- find_ssh_cmd(ssh)
   out <- sys::exec_internal(ssh, c("-G", host))
   txt <- strsplit(rawToChar(out$stdout), "\r?\n")[[1]]
@@ -107,7 +116,7 @@ ssh_config <- function(host = "github.com", ssh = "ssh"){
   structure(values, names = names)
 }
 
-find_ssh_cmd <- function(ssh = "ssh"){
+find_ssh_cmd <- function(ssh){
   if(cmd_exists(ssh))
     return(ssh)
   if(is_windows()){
