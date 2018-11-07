@@ -1,0 +1,93 @@
+---
+title: "Managing SSH and Git Credentials in R"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Managing SSH and Git Credentials in R}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The `credentials` package contains tools for configuring and retrieving SSH and HTTPS credentials for use with `git` or other services. It helps users to setup their git installation, and also provides a back-end for packages to authenticate with existing user credentials.
+
+## Two types of remotes
+
+Git supports two types of remotes: SSH and HTTP. These two use completely distinct authentication systems. 
+
+
+|         | SSH REMOTES      | HTTPS REMOTES          |
+|---------|------------------|------------------------|
+| __url__     | `git@server.com` | `https://server.com`   |
+| __authentication__    | Personal SSH key          | Password or PAT         |
+| __stored in__ | file `id_rsa` or `ssh-agent` | `git credential` store |
+
+For HTTPS remotes, git authenticates with a username + password. Instead of a password you can also use a [Personal Access Token](https://github.com/settings/tokens) (PAT). PATs are preferred because have limited permissions and do not require 2FA.
+
+For SSH remotes, git shells out to `ssh` on your system, and lets `ssh` take care of authentication. This means you have to setup an ssh key (usually `~/.ssh/id_rsa`) which you then [add to your git profile](https://github.com/settings/ssh/new).
+
+### Special note for Windows
+
+Windows does not include a native `git` installation by default. We recommended to use the latest version of [Git for Windows](https://git-scm.com/download/win). This bundle also includes `ssh` and [git credential manager for windows](https://github.com/Microsoft/Git-Credential-Manager-for-Windows) which is all you need.
+
+Important: ssh keys are stored in your home directory for example: `C:\Users\Jeroen\.ssh\id_rsa`, and __not in the Documents folder__ (which is what R treats as the home sometimes). The `ssh_home()` function shows the correct `.ssh` directory on all platforms.
+
+## Part 1: HTTPS credentials
+
+HTTPS remotes do not always require authentication. You can clone from a public repository without providing any credentials. But for pushing, or private repositories, `git` will prompt for a username/password.
+
+```sh
+git clone https://github.com/jeroen/jsonlite
+```
+
+To save you from entering your password over and over, git includes a [credential helper](https://git-scm.com/docs/gitcredentials). It has two modes:
+
+ - `cache`: Cache credentials in memory for a short period of time.
+ - `store`: Store credentials permanently in your operating system password manager.
+ 
+To see which helper is configured for a given repo, run:
+
+```sh
+git config credential.helper
+```
+
+Most `git` installations default to `store` if supported because it is more convenient and secure. However the look and policy of the git credential store for entering and retrieving passwords can vary by system, because it uses the OS native password manager.
+
+### Acessing the HTTPS Credential Store from R
+
+The `credentials` R package provides a wrapper around the `git credential` command line API for reading and saving credentials. The `read_http_credential()` function looks up suitable credentials for a given URL from the store. If no credentials are available, it will attempt to prompt the user for credentials and return those instead.
+
+```{r echo=FALSE}
+library(credentials)
+example <- list(protocol = "https", host = "example.com",
+  username = "jeroen", password = "supersecret")
+credential_approve(example)
+```
+
+```{r}
+library(credentials)
+read_http_credential('https://example.com')
+```
+
+The function `update_http_credential()` looks similar but it behaves slightly different: it first removes existing credentials from the store (if any), then prompt the user for a new username/password, and save these to the store.
+
+```r
+# This should always prompt the user
+update_http_credential('https://example.com')
+```
+
+In a terminal window this will result in an interactive password prompt. In Windows the user might see something like this (depending on the version of Windows and git configutation):
+
+<img style="width:690px; padding:0;" src="wincred.png">
+
+```{r echo=FALSE}
+credential_reject(list(protocol = "https", host = "example.com"))
+```
+
+### Non-interactive use
+
+Retrieving credentials is by definition interactive, because it the user may be required to enter a password or unlock the system keychain. However, saving or deleting credentials can be done non-interactively. 
+
+The manual page for [credential_approve] and [credential_reject] has more details about how to call the basic git credential api. 
+
+
+## Part 2: SSH Keys
+

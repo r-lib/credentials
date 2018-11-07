@@ -22,22 +22,27 @@ optionally also \code{path}, \code{username} ,\code{password}.}
 \item{verbose}{emit some useful output about what is happening}
 }
 \description{
-These are low-level wrappers for the \href{https://git-scm.com/docs/git-credential}{git-credential}
-command line tool. Try the more user-friendly \link{read_http_credential}
+Low-level wrappers for the \href{https://git-scm.com/docs/git-credential}{git-credential}
+command line tool. Try the user-friendly \link{read_http_credential}
 and \link{update_http_credential} functions first.
 }
 \details{
-The \link{credential_fill} function either looks up credentials, and if none exists
-it will attempt to prompt the user for a username/password. The method for
-storing and prompting depends on your OS and R frontend. Upon success it
-returns a named list with the same \code{protocol} and \code{host} fields as the
-\code{cred} input, and possibly added \code{username} and \code{password} fields.
+The \link{credential_fill} function looks up credentials for a given host, and
+if none exists it will attempt to prompt the user for new credentials. Upon
+success it returns a list with the same \code{protocol} and \code{host} fields as the
+\code{cred} input, and additional \code{username} and \code{password} fields.
 
-You are then supposed to try and authenticate with these credentials using
-your client, and afterwards report back if the credentials were valid or not.
-You should call \link{credential_approve} and \link{credential_reject} using the \code{cred}
-that was returned by \link{credential_fill} in order to validate or invalidate a
-credential from the store.
+After you have tried to authenticate the provided credentials, you can report
+back if the credentials were valid or not. Call \link{credential_approve} and
+\link{credential_reject} with the \code{cred} that was returned by \link{credential_fill}
+in order to validate or invalidate a credential from the store.
+
+Because git credential interacts with the system password manager, the appearance
+of the prompts vary by OS and R frontend.  Note that \link{credential_fill} should
+only be used interactivly, because it may require the user to enter credentials
+or unlock the system keychain. On the other hand \link{credential_approve} and
+\link{credential_reject} are non-interactive and could be used to save or delete
+credentials in a scripted program.
 }
 \examples{
 \donttest{
