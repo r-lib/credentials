@@ -30,7 +30,7 @@ Windows does not include a native `git` installation by default. We recommended 
 
 Important: ssh keys are stored in your home directory for example: `C:\Users\Jeroen\.ssh\id_rsa`, and __not in the Documents folder__ (which is what R treats as the home sometimes). The `ssh_home()` function shows the correct `.ssh` directory on all platforms.
 
-## Part 1: HTTPS credentials
+## Part 1: Storing HTTPS credentials
 
 HTTPS remotes do not always require authentication. You can clone from a public repository without providing any credentials. But for pushing, or private repositories, `git` will prompt for a username/password.
 
@@ -89,5 +89,24 @@ Retrieving credentials is by definition interactive, because it the user may be 
 The manual page for [credential_approve] and [credential_reject] has more details about how to call the basic git credential api. 
 
 
-## Part 2: SSH Keys
+## Part 2: Managing SSH Keys
+
+For SSH remotes, git does not handle authentication itself. Git simply shells out to `ssh` on your system and uses your standard user ssh configuration. Hence authenticating with SSH git remotes comes down to setting up your ssh keys and copying these to your profile.
+
+The `credentials` package provides a few utility functions to make this easier. The `my_ssh_key()` function calls out to looks up which key that `ssh` uses to connect to a given server. This is usually `~/.ssh/id_rsa` unless you have a fancy custom ssh configuration.
+
+```{r}
+str(my_ssh_key())
+```
+
+The output shows both the path to your (private) key as well as the ssh pubkey string. The latter is what you have to enter in your [GitHub profile](https://github.com/settings/ssh/new) to associate this key with your user account. You will then be automatically authenticated when using GitHub SSH remotes.
+
+### Generating a key
+
+To use SSH you need a personal key, which is usually stored in `~/.ssh/id_rsa`. If you do not have a key yet, the `my_ssh_key()` function will automatically ask if you want to generate one.
+
+<img style="width:690px; padding:0;" src="keygen.png">
+
+You can also generate a key manually elsewhere using the `ssh_keygen()` function.
+
 
