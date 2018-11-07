@@ -3,7 +3,6 @@ language: r
 sudo: false
 latex: false
 fortran: false
-pandoc: false
 
 matrix:
   include:
