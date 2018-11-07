@@ -2,13 +2,16 @@
 % Please edit documentation in R/ssh.R
 \name{ssh_credentials}
 \alias{ssh_credentials}
-\alias{lookup_ssh_key}
-\alias{read_ssh_key}
-\title{Manage your SSH keys}
+\alias{my_ssh_key}
+\alias{ssh_keygen}
+\alias{ssh_home}
+\title{Your SSH key}
 \usage{
-lookup_ssh_key(host = "github.com", ssh = "ssh", password = askpass)
+my_ssh_key(host = "github.com", ssh = "ssh", password = askpass)
 
-read_ssh_key(host = "github.com", ssh = "ssh", password = askpass)
+ssh_keygen(file = ssh_home("id_rsa"), open_github = TRUE)
+
+ssh_home(file = NULL)
 }
 \arguments{
 \item{host}{target host (only matters if you have configured specific keys per host)}
@@ -16,10 +19,28 @@ read_ssh_key(host = "github.com", ssh = "ssh", password = askpass)
 \item{ssh}{path to your ssh executable (if you have one)}
 
 \item{password}{string or callback function for passphrase, see \link[openssl:read_key]{openssl::read_key}}
+
+\item{file}{destination path of the private key. For the public key, \code{.pub}
+is appended to the filename.}
+
+\item{open_github}{automatically open a browser window to let the user
+add the key to Github.}
 }
 \description{
-Utility functions to help you setup and find your SSH key files for use
-with git remotes or other ssh servers.
+Utility functions to find or generate your SSH key for use with git remotes
+or other ssh servers.
+}
+\details{
+Use \code{\link[=my_ssh_key]{my_ssh_key()}} to find the appropriate key file on your system to connect with a
+given target host. In most cases this will simply be \code{ssh_home('id_rsa')} unless
+you have configured ssh to use specific keys for specific hosts.
+
+To use your key to authenticate with GitHub, copy the pubkey from \code{my_ssh_key()} to
+your profile: \url{https://github.com/settings/ssh/new}.
+
+If this is the first time you use ssh, \link{ssh_keygen} can help generate a key and
+save it in the default location. This will also automatically opens the above Github
+page in your browser where you can add the key to your profile.
 }
 \seealso{
 Other credentials: \code{\link{http_credentials}}

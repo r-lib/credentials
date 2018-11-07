@@ -1,7 +1,18 @@
-#' Manage your SSH keys
+#' Your SSH key
 #'
-#' Utility functions to help you setup and find your SSH key files for use
-#' with git remotes or other ssh servers.
+#' Utility functions to find or generate your SSH key for use with git remotes
+#' or other ssh servers.
+#'
+#' Use [my_ssh_key()] to find the appropriate key file on your system to connect with a
+#' given target host. In most cases this will simply be `ssh_home('id_rsa')` unless
+#' you have configured ssh to use specific keys for specific hosts.
+#'
+#' To use your key to authenticate with GitHub, copy the pubkey from `my_ssh_key()` to
+#' your profile: \url{https://github.com/settings/ssh/new}.
+#'
+#' If this is the first time you use ssh, [ssh_keygen] can help generate a key and
+#' save it in the default location. This will also automatically opens the above Github
+#' page in your browser where you can add the key to your profile.
 #'
 #' @export
 #' @family credentials
@@ -10,7 +21,7 @@
 #' @param host target host (only matters if you have configured specific keys per host)
 #' @param ssh path to your ssh executable (if you have one)
 #' @param password string or callback function for passphrase, see [openssl::read_key]
-lookup_ssh_key <- function(host = "github.com", ssh = "ssh", password = askpass){
+my_ssh_key <- function(host = "github.com", ssh = "ssh", password = askpass){
   keyfile <- ssh_key(host = host, ssh = ssh)
   pubfile <- paste0(keyfile, ".pub")
   if(!file.exists(pubfile)){
@@ -25,10 +36,48 @@ lookup_ssh_key <- function(host = "github.com", ssh = "ssh", password = askpass)
 
 #' @export
 #' @rdname ssh_credentials
-read_ssh_key <- function(host = "github.com", ssh = "ssh", password = askpass){
-  keyfile <- ssh_key(host = host, ssh = ssh)
-  openssl::read_key(keyfile, password = password)
+#' @param file destination path of the private key. For the public key, `.pub`
+#' is appended to the filename.
+#' @param open_github automatically open a browser window to let the user
+#' add the key to Github.
+#' @importFrom openssl write_ssh write_pem read_key write_pkcs1
+ssh_keygen <- function(file = ssh_home('id_rsa'), open_github = TRUE){
+  private_key <- normalizePath(file, mustWork = FALSE)
+  if(file.exists(private_key)){
+    cat(sprintf("Found existing RSA keyspair at: %s\n", private_key), file = stderr())
+    key <- read_key(file)
+  } else {
+    cat(sprintf("Generating new RSA keyspair at: %s\n", private_key), file = stderr())
+    key <- openssl::rsa_keygen()
+    write_pkcs1(key, private_key)
+    write_ssh(key$pubkey, paste0(private_key, '.pub'))
+  }
+
+  # See https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
+  conf_file <- file.path(dirname(private_key), 'config')
+  if(!file.exists(conf_file)){
+    writeLines(c('Host *', '  AddKeysToAgent yes', '  UseKeychain yes',
+                 paste('  IdentityFile ', private_key)), con = conf_file)
+  }
+  if(isTRUE(open_github)){
+    cat("Opening browser to add your key: https://github.com/settings/ssh/new\n", file = stderr())
+    utils::browseURL('https://github.com/settings/ssh/new')
+  }
+  list(
+    path = private_key,
+    pubkey = write_ssh(key$pubkey)
+  )
 }
+
+#' @export
+#' @rdname ssh_credentials
+ssh_home <- function(file = NULL){
+  if(length(file)){
+    return(file.path(normalize_home("~/.ssh"), file))
+  }
+  normalize_home("~/.ssh")
+}
+
 
 ssh_key <- function(host = "github.com", ssh = "ssh"){
   key_paths <- tryCatch(ssh_identityfiles(host = host, ssh = ssh), error = function(e){
@@ -84,8 +133,6 @@ normalize_home <- function(path = NULL){
   normalizePath(path, mustWork = FALSE)
 }
 
-
 #' @importFrom openssl askpass
 #' @export
 openssl::askpass
-
