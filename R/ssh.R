@@ -58,6 +58,7 @@ ssh_keygen <- function(file = ssh_home('id_rsa'), open_github = TRUE){
   } else {
     cat(sprintf("Generating new RSA keyspair at: %s\n", private_key), file = stderr())
     key <- openssl::rsa_keygen()
+    dir.create(dirname(private_key))
     write_pkcs1(key, private_key)
     write_ssh(key$pubkey, paste0(private_key, '.pub'))
   }
