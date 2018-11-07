@@ -24,7 +24,7 @@ optionally also \code{path}, \code{username} ,\code{password}.}
 \description{
 These are low-level wrappers for the \href{https://git-scm.com/docs/git-credential}{git-credential}
 command line tool. Try the more user-friendly \link{read_http_credential}
-and \link{save_http_credential} functions first.
+and \link{update_http_credential} functions first.
 }
 \details{
 The \link{credential_fill} function either looks up credentials, and if none exists

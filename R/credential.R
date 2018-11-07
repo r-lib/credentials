@@ -4,7 +4,7 @@
 #' [read_http_credential] looks up a suitable username/password from
 #' the `git-credential` store. If none are available it will attempt
 #' to prompt the user for credentials and return those.
-#' Use [save_http_credential] to update the credential for a given url.
+#' Use [update_http_credential] to update the credential for a given url.
 #'
 #' @export
 #' @family credentials
@@ -22,7 +22,7 @@ read_http_credential <- function(url = "https://github.com", git = "git", verbos
 
 #' @export
 #' @rdname http_credentials
-save_http_credential <- function(url = "https://github.com", git = "git", verbose = TRUE){
+update_http_credential <- function(url = "https://github.com", git = "git", verbose = TRUE){
   cred <- parse_url(url)
   credential_reject(cred)
   out <- credential_fill(cred = cred, git = git, verbose = verbose)

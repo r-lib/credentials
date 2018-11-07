@@ -2,7 +2,7 @@
 #'
 #' These are low-level wrappers for the [git-credential](https://git-scm.com/docs/git-credential)
 #' command line tool. Try the more user-friendly [read_http_credential]
-#' and [save_http_credential] functions first.
+#' and [update_http_credential] functions first.
 #'
 #' The [credential_fill] function either looks up credentials, and if none exists
 #' it will attempt to prompt the user for a username/password. The method for

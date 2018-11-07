@@ -4,13 +4,13 @@
 \alias{http_credentials}
 \alias{read_http_credential}
 \alias{credentials}
-\alias{save_http_credential}
+\alias{update_http_credential}
 \title{Lookup HTTP passwords from the git credential store}
 \usage{
 read_http_credential(url = "https://github.com", git = "git",
   verbose = TRUE)
 
-save_http_credential(url = "https://github.com", git = "git",
+update_http_credential(url = "https://github.com", git = "git",
   verbose = TRUE)
 }
 \arguments{
@@ -25,7 +25,7 @@ This requires you have the \code{git} command line program installed.
 \link{read_http_credential} looks up a suitable username/password from
 the \code{git-credential} store. If none are available it will attempt
 to prompt the user for credentials and return those.
-Use \link{save_http_credential} to update the credential for a given url.
+Use \link{update_http_credential} to update the credential for a given url.
 }
 \seealso{
 Other credentials: \code{\link{ssh_credentials}}

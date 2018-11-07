@@ -24,7 +24,7 @@
 my_ssh_key <- function(host = "github.com", ssh = "ssh", password = askpass){
   keyfile <- find_ssh_key(host = host, ssh = ssh)
   if(is.null(keyfile)){
-    if(interactive() && isTRUE(askYesNo("No ssh key found. Generate one?",
+    if(interactive() && isTRUE(utils::askYesNo("No ssh key found. Generate one?",
                                         FALSE, c("Yes", "No", "Cancel")))){
       keyfile <- ssh_home('id_rsa')
       ssh_keygen(keyfile, open_github = FALSE)
