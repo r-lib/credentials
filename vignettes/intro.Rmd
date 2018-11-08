@@ -29,7 +29,7 @@ invisible(tryCatch({
 
 # If no key exists, generate one
 invisible(tryCatch(credentials::my_ssh_key(), error = function(e){
-  ssh_keygen()
+  credentials::ssh_keygen()
 }))
 ```
 
