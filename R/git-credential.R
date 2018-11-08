@@ -84,15 +84,15 @@ credential_exec <- function(command, cred, git, verbose){
     Sys.setenv(PATH = paste(c(old_path, rs_path), collapse = .Platform$path.sep))
   }
   if(is_windows() || is_macos() || !isatty(stdin())){
-    git_with_sys(command, input = input, git = git, verbose = verbose)
+    git_with_sys(c("credential", command), input = input, git = git, verbose = verbose)
   } else {
     # base::system can freeze RStudio Desktop or Windows
-    git_with_base(command, input = input, git = git, verbose = verbose)
+    git_with_base(c("credential", command), input = input, git = git, verbose = verbose)
   }
 }
 
 git_with_base <- function(command, input, git, verbose){
-  res <- system2(git, c("credential", command), stdin = input,
+  res <- system2(git, command, stdin = input,
                  stdout = TRUE, stderr = ifelse(isTRUE(verbose), "", TRUE))
   status <- attr(res, "status")
   if(length(status) && !identical(status, 0L)){
@@ -104,15 +104,15 @@ git_with_base <- function(command, input, git, verbose){
 git_with_sys <- function(command, input, git, verbose){
   outcon <- rawConnection(raw(0), "r+")
   on.exit(close(outcon), add = TRUE)
-  status <- sys::exec_wait(git, c("credential", command),
+  status <- sys::exec_wait(git, command,
                            std_out = outcon, std_err = verbose, std_in = input)
   if(!identical(status, 0L)){
-    stop(sprintf("Failed to call 'git credential'"))
+    stop(sprintf("Failed to call 'git %s'", paste(command, collapse = " ")))
   }
   strsplit(rawToChar(rawConnectionValue(outcon)), "\n", fixed = TRUE)[[1]]
 }
 
-find_git_cmd <- function(git = "git"){
+find_git_cmd <- function(git = getOption("git", "git")){
   if(cmd_exists(git)){
     return(git)
   }
