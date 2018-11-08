@@ -16,3 +16,4 @@ addons:
     packages:
     - libssl-dev
     - git
+    - openssh-client
