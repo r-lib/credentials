@@ -91,7 +91,7 @@ ssh_home <- function(file = NULL){
 
 find_ssh_key <- function(host){
   key_paths <- tryCatch(ssh_identityfiles(host = host), error = function(e){
-    warning(e, call. = e$call, immediate. = TRUE)
+    warning(e$message, call. = FALSE, immediate. = TRUE)
     file.path("~/.ssh", c("id_rsa", "id_dsa", "id_ecdsa", "id_ed25519", "id_xmss"))
   })
   key_paths <- normalize_home(key_paths)
