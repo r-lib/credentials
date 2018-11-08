@@ -22,8 +22,8 @@
 #' credentials in a scripted program.
 #'
 #' @export
-#' @rdname git_cmd
-#' @name git_cmd
+#' @rdname credential_api
+#' @name credential_api
 #' @param cred named list with at least fields `protocol` and `host` and
 #' optionally also `path`, `username` ,`password`.
 #' @param verbose emit some useful output about what is happening
@@ -49,16 +49,16 @@ credential_fill <- function(cred, verbose = TRUE){
 }
 
 #' @export
-#' @rdname git_cmd
-#' @name git_cmd
+#' @rdname credential_api
+#' @name credential_api
 credential_approve <- function(cred, verbose = TRUE){
   credential_exec("approve", cred = cred, verbose = verbose)
   invisible()
 }
 
 #' @export
-#' @rdname git_cmd
-#' @name git_cmd
+#' @rdname credential_api
+#' @name credential_api
 credential_reject <- function(cred, verbose = TRUE){
   credential_exec("reject", cred = cred, verbose = verbose)
   invisible()
