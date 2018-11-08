@@ -7,16 +7,12 @@
 \alias{update_http_credential}
 \title{Lookup HTTP passwords from the git credential store}
 \usage{
-read_http_credential(url = "https://github.com", git = "git",
-  verbose = TRUE)
+read_http_credential(url = "https://github.com", verbose = TRUE)
 
-update_http_credential(url = "https://github.com", git = "git",
-  verbose = TRUE)
+update_http_credential(url = "https://github.com", verbose = TRUE)
 }
 \arguments{
 \item{url}{target url, possibly including username or path}
-
-\item{git}{path of the \code{git} command line program}
 
 \item{verbose}{print errors from \code{git credetial} to stdout}
 }

@@ -26,7 +26,6 @@
 #' @name git_cmd
 #' @param cred named list with at least fields `protocol` and `host` and
 #' optionally also `path`, `username` ,`password`.
-#' @param git name or path to your git executable
 #' @param verbose emit some useful output about what is happening
 #' @examples \donttest{
 #' # Insert example cred
@@ -41,8 +40,8 @@
 #' # Delete it
 #' credential_reject(cred)
 #' }
-credential_fill <- function(cred, git = "git", verbose = TRUE){
-  out <- credential_exec("fill", cred = cred, git = git, verbose = verbose)
+credential_fill <- function(cred, verbose = TRUE){
+  out <- credential_exec("fill", cred = cred, verbose = verbose)
   data <- strsplit(out, "=", fixed = TRUE)
   key <- vapply(data, `[`, character(1), 1)
   val <- vapply(data, `[`, character(1), 2)
@@ -52,21 +51,20 @@ credential_fill <- function(cred, git = "git", verbose = TRUE){
 #' @export
 #' @rdname git_cmd
 #' @name git_cmd
-credential_approve <- function(cred, git = "git", verbose = TRUE){
-  credential_exec("approve", cred = cred, git = git, verbose = verbose)
+credential_approve <- function(cred, verbose = TRUE){
+  credential_exec("approve", cred = cred, verbose = verbose)
   invisible()
 }
 
 #' @export
 #' @rdname git_cmd
 #' @name git_cmd
-credential_reject <- function(cred, git = "git", verbose = TRUE){
-  credential_exec("reject", cred = cred, git = git, verbose = verbose)
+credential_reject <- function(cred, verbose = TRUE){
+  credential_exec("reject", cred = cred, verbose = verbose)
   invisible()
 }
 
-credential_exec <- function(command, cred, git, verbose){
-  git <- find_git_cmd(git)
+credential_exec <- function(command, cred, verbose){
   input <- cred_to_input(cred)
   on.exit(unlink(input))
   if(is_windows() || !interactive() || !isatty(stdin())){
@@ -84,14 +82,16 @@ credential_exec <- function(command, cred, git, verbose){
     Sys.setenv(PATH = paste(c(old_path, rs_path), collapse = .Platform$path.sep))
   }
   if(is_windows() || is_macos() || !isatty(stdin())){
-    git_with_sys(c("credential", command), input = input, git = git, verbose = verbose)
+    text <- git_with_sys(c("credential", command), input = input, verbose = verbose)
+    strsplit(text, "\n", fixed = TRUE)[[1]]
   } else {
     # base::system can freeze RStudio Desktop or Windows
-    git_with_base(c("credential", command), input = input, git = git, verbose = verbose)
+    git_with_base(c("credential", command), input = input, verbose = verbose)
   }
 }
 
-git_with_base <- function(command, input, git, verbose){
+git_with_base <- function(command, input, verbose){
+  git <- find_git_cmd()
   res <- system2(git, command, stdin = input,
                  stdout = TRUE, stderr = ifelse(isTRUE(verbose), "", TRUE))
   status <- attr(res, "status")
@@ -101,7 +101,8 @@ git_with_base <- function(command, input, git, verbose){
   res
 }
 
-git_with_sys <- function(command, input, git, verbose){
+git_with_sys <- function(command, input, verbose){
+  git <- find_git_cmd()
   outcon <- rawConnection(raw(0), "r+")
   on.exit(close(outcon), add = TRUE)
   status <- sys::exec_wait(git, command,
@@ -109,7 +110,7 @@ git_with_sys <- function(command, input, git, verbose){
   if(!identical(status, 0L)){
     stop(sprintf("Failed to call 'git %s'", paste(command, collapse = " ")))
   }
-  strsplit(rawToChar(rawConnectionValue(outcon)), "\n", fixed = TRUE)[[1]]
+  trimws(rawToChar(rawConnectionValue(outcon)))
 }
 
 find_git_cmd <- function(git = getOption("git", "git")){

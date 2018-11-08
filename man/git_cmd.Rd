@@ -7,17 +7,15 @@
 \alias{credential_reject}
 \title{Retrieve and store git HTTPS credentials}
 \usage{
-credential_fill(cred, git = "git", verbose = TRUE)
+credential_fill(cred, verbose = TRUE)
 
-credential_approve(cred, git = "git", verbose = TRUE)
+credential_approve(cred, verbose = TRUE)
 
-credential_reject(cred, git = "git", verbose = TRUE)
+credential_reject(cred, verbose = TRUE)
 }
 \arguments{
 \item{cred}{named list with at least fields \code{protocol} and \code{host} and
 optionally also \code{path}, \code{username} ,\code{password}.}
-
-\item{git}{name or path to your git executable}
 
 \item{verbose}{emit some useful output about what is happening}
 }
