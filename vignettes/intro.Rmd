@@ -19,6 +19,13 @@ library <- function(package){
                         invokeRestart("muffleMessage")
                       })
 }
+
+# If no credential helper has been set, use the 'cache' helper
+tryCatch({
+  credentials::credential_helper_get()
+}, error = function(...){
+  credentials::credential_helper_set('cache', global = TRUE)
+})
 ```
 
 
