@@ -7,7 +7,7 @@
 \alias{ssh_home}
 \title{Your SSH key}
 \usage{
-my_ssh_key(host = "github.com", ssh = "ssh", password = askpass)
+my_ssh_key(host = "github.com", password = askpass)
 
 ssh_keygen(file = ssh_home("id_rsa"), open_github = interactive())
 
@@ -15,8 +15,6 @@ ssh_home(file = NULL)
 }
 \arguments{
 \item{host}{target host (only matters if you have configured specific keys per host)}
-
-\item{ssh}{path to your ssh executable (if you have one)}
 
 \item{password}{string or callback function for passphrase, see \link[openssl:read_key]{openssl::read_key}}
 

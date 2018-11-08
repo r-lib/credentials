@@ -9,7 +9,7 @@
 #' @rdname credential_helper
 #' @name credential_helper
 credential_helper_ls <- function(){
-  text <- git_with_sys(c("help", "-a"), input = NULL, verbose = TRUE)
+  text <- git_with_sys(c("help", "-a"))
   m <- gregexpr("credential-[^ \t]+", text)
   regmatches(text, m)[[1]]
 }
@@ -22,7 +22,7 @@ credential_helper_ls <- function(){
 credential_helper_get <- function(global = FALSE){
   git <- find_git_cmd()
   args <- c("config", if(global) "--global", "credential.helper")
-  git_with_sys(args, input = NULL, verbose = TRUE)
+  git_with_sys(args)
 }
 
 #' @export
@@ -32,6 +32,6 @@ credential_helper_get <- function(global = FALSE){
 credential_helper_set <- function(helper, global = FALSE){
   helper <- sub("^credential-", "", helper)
   args <- c("config", if(global) "--global", "credential.helper", helper)
-  git_with_sys(args, input = NULL, verbose = TRUE)
+  git_with_sys(args)
   credential_helper_get(global = global)
 }

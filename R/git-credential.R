@@ -90,7 +90,7 @@ credential_exec <- function(command, cred, verbose){
   }
 }
 
-git_with_base <- function(command, input, verbose){
+git_with_base <- function(command, input = "", verbose = TRUE){
   git <- find_git_cmd()
   res <- system2(git, command, stdin = input,
                  stdout = TRUE, stderr = ifelse(isTRUE(verbose), "", TRUE))
@@ -101,7 +101,7 @@ git_with_base <- function(command, input, verbose){
   res
 }
 
-git_with_sys <- function(command, input, verbose){
+git_with_sys <- function(command, input = NULL, verbose = TRUE){
   git <- find_git_cmd()
   outcon <- rawConnection(raw(0), "r+")
   on.exit(close(outcon), add = TRUE)

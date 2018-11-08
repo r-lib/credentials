@@ -19,10 +19,9 @@
 #' @rdname ssh_credentials
 #' @name ssh_credentials
 #' @param host target host (only matters if you have configured specific keys per host)
-#' @param ssh path to your ssh executable (if you have one)
 #' @param password string or callback function for passphrase, see [openssl::read_key]
-my_ssh_key <- function(host = "github.com", ssh = "ssh", password = askpass){
-  keyfile <- find_ssh_key(host = host, ssh = ssh)
+my_ssh_key <- function(host = "github.com", password = askpass){
+  keyfile <- find_ssh_key(host = host)
   if(is.null(keyfile)){
     if(interactive() && isTRUE(utils::askYesNo("No ssh key found. Generate one?",
                                         FALSE, c("Yes", "No", "Cancel")))){
@@ -90,8 +89,8 @@ ssh_home <- function(file = NULL){
 }
 
 
-find_ssh_key <- function(host, ssh){
-  key_paths <- tryCatch(ssh_identityfiles(host = host, ssh = ssh), error = function(e){
+find_ssh_key <- function(host){
+  key_paths <- tryCatch(ssh_identityfiles(host = host), error = function(e){
     message(e)
     file.path("~/.ssh", c("id_rsa", "id_dsa", "id_ecdsa", "id_ed25519", "id_xmss"))
   })
@@ -103,14 +102,14 @@ find_ssh_key <- function(host, ssh){
   return(NULL)
 }
 
-ssh_identityfiles <- function(host, ssh){
+ssh_identityfiles <- function(host){
   # Note there can be multiple 'identityfile' entries
-  conf <- ssh_config(host = host, ssh = ssh)
+  conf <- ssh_config(host = host)
   unique(unlist(conf[names(conf) == 'identityfile']))
 }
 
-ssh_config <- function(host, ssh){
-  ssh <- find_ssh_cmd(ssh)
+ssh_config <- function(host){
+  ssh <- find_ssh_cmd()
   out <- sys::exec_internal(ssh, c("-G", host))
   txt <- strsplit(rawToChar(out$stdout), "\r?\n")[[1]]
   lines <- strsplit(txt, " ", fixed = TRUE)
@@ -119,7 +118,14 @@ ssh_config <- function(host, ssh){
   structure(values, names = names)
 }
 
-find_ssh_cmd <- function(ssh){
+ssh_version <- function(){
+  ssh <- find_ssh_cmd()
+  out <- sys::exec_internal(ssh, "-V")
+  # ssh may print to stderr instead of stdout
+  trimws(rawToChar(c(out$stdout, out$stderr)))
+}
+
+find_ssh_cmd <- function(ssh = getOption("ssh", "ssh")){
   if(cmd_exists(ssh))
     return(ssh)
   if(is_windows()){
