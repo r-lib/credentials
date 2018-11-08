@@ -1,8 +1,8 @@
 #' Retrieve and store git HTTPS credentials
 #'
 #' Low-level wrappers for the [git-credential](https://git-scm.com/docs/git-credential)
-#' command line tool. Try the user-friendly [read_http_credential]
-#' and [update_http_credential] functions first.
+#' command line tool. Try the user-friendly [git_credential_read]
+#' and [git_credential_update] functions first.
 #'
 #' The [credential_fill] function looks up credentials for a given host, and
 #' if none exists it will attempt to prompt the user for new credentials. Upon
@@ -19,7 +19,11 @@
 #' only be used interactivly, because it may require the user to enter credentials
 #' or unlock the system keychain. On the other hand [credential_approve] and
 #' [credential_reject] are non-interactive and could be used to save or delete
-#' credentials in a scripted program.
+#' credentials in a scripted program. However note that some credential helpers
+#' (e.g. on Windows) have additional security restrictions that limit use of
+#' [credential_approve] and [credential_reject] to credentials that were actually
+#' entered by the user via [credential_fill]. Here it is not possible at all to
+#' update the credential store without user interaction.
 #'
 #' @export
 #' @rdname credential_api

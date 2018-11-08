@@ -2,14 +2,14 @@
 % Please edit documentation in R/http-credential.R
 \name{http_credentials}
 \alias{http_credentials}
-\alias{read_http_credential}
+\alias{git_credential_read}
 \alias{credentials}
-\alias{update_http_credential}
+\alias{git_credential_update}
 \title{Lookup HTTP passwords from the git credential store}
 \usage{
-read_http_credential(url = "https://github.com", verbose = TRUE)
+git_credential_read(url = "https://github.com", verbose = TRUE)
 
-update_http_credential(url = "https://github.com", verbose = TRUE)
+git_credential_update(url = "https://github.com", verbose = TRUE)
 }
 \arguments{
 \item{url}{target url, possibly including username or path}
@@ -18,10 +18,10 @@ update_http_credential(url = "https://github.com", verbose = TRUE)
 }
 \description{
 This requires you have the \code{git} command line program installed.
-\link{read_http_credential} looks up a suitable username/password from
+\link{git_credential_read} looks up a suitable username/password from
 the \code{git-credential} store. If none are available it will attempt
 to prompt the user for credentials and return those.
-Use \link{update_http_credential} to update the credential for a given url.
+Use \link{git_credential_update} to update the credential for a given url.
 }
 \seealso{
 Other credentials: \code{\link{ssh_credentials}}

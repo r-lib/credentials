@@ -21,8 +21,8 @@ optionally also \code{path}, \code{username} ,\code{password}.}
 }
 \description{
 Low-level wrappers for the \href{https://git-scm.com/docs/git-credential}{git-credential}
-command line tool. Try the user-friendly \link{read_http_credential}
-and \link{update_http_credential} functions first.
+command line tool. Try the user-friendly \link{git_credential_read}
+and \link{git_credential_update} functions first.
 }
 \details{
 The \link{credential_fill} function looks up credentials for a given host, and
@@ -40,7 +40,11 @@ of the prompts vary by OS and R frontend.  Note that \link{credential_fill} shou
 only be used interactivly, because it may require the user to enter credentials
 or unlock the system keychain. On the other hand \link{credential_approve} and
 \link{credential_reject} are non-interactive and could be used to save or delete
-credentials in a scripted program.
+credentials in a scripted program. However note that some credential helpers
+(e.g. on Windows) have additional security restrictions that limit use of
+\link{credential_approve} and \link{credential_reject} to credentials that were actually
+entered by the user via \link{credential_fill}. Here it is not possible at all to
+update the credential store without user interaction.
 }
 \examples{
 \donttest{

@@ -24,7 +24,8 @@ library <- function(package){
 invisible(tryCatch({
   credentials::credential_helper_get()
 }, error = function(...){
-  credentials::credential_helper_set('cache', global = TRUE)
+  helper <- credential_helper_ls()[1]
+  credentials::credential_helper_set(helper, global = TRUE)
 }))
 
 # If no key exists, generate one
@@ -80,7 +81,7 @@ Most `git` installations default to `store` if supported because it is more conv
 
 ### Acessing the HTTPS Credential Store from R
 
-The `credentials` R package provides a wrapper around the `git credential` command line API for reading and saving credentials. The `read_http_credential()` function looks up suitable credentials for a given URL from the store. If no credentials are available, it will attempt to prompt the user for credentials and return those instead.
+The `credentials` R package provides a wrapper around the `git credential` command line API for reading and saving credentials. The `git_credential_read()` function looks up suitable credentials for a given URL from the store. If no credentials are available, it will attempt to prompt the user for credentials and return those instead.
 
 ```{r echo=FALSE}
 example <- list(protocol = "https", host = "example.com",
@@ -90,14 +91,14 @@ credential_approve(example)
 
 ```{r}
 library(credentials)
-read_http_credential('https://example.com')
+git_credential_read('https://example.com')
 ```
 
-The function `update_http_credential()` looks similar but it behaves slightly different: it first removes existing credentials from the store (if any), then prompt the user for a new username/password, and save these to the store.
+The function `git_credential_update()` looks similar but it behaves slightly different: it first removes existing credentials from the store (if any), then prompt the user for a new username/password, and save these to the store.
 
 ```r
-# This should always prompt the user
-update_http_credential('https://example.com')
+# This should always prompt for new credentials
+git_credential_update('https://example.com')
 ```
 
 In a terminal window this will result in an interactive password prompt. In Windows the user might see something like this (depending on the version of Windows and git configutation):
@@ -110,9 +111,9 @@ credential_reject(list(protocol = "https", host = "example.com"))
 
 ### Non-interactive use
 
-Retrieving credentials is by definition interactive, because it the user may be required to enter a password or unlock the system keychain. However, saving or deleting credentials can be done non-interactively. 
+Retrieving credentials is by definition interactive, because it the user may be required to enter a password or unlock the system keychain. However, saving or deleting credentials can be sometimes done non-interactively, but this depends on which credential helper is used.
 
-The manual page for [credential_approve] and [credential_reject] has more details about how to call the basic git credential api. 
+The manual page for `credential_approve` and `credential_reject` has more details about how to call the basic git credential api. 
 
 
 ## Part 2: Managing SSH Keys
