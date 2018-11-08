@@ -61,7 +61,7 @@ Important: ssh keys are stored in your home directory for example: `C:\Users\Jer
 
 HTTPS remotes do not always require authentication. You can clone from a public repository without providing any credentials. But for pushing, or private repositories, `git` will prompt for a username/password.
 
-```sh
+```
 git clone https://github.com/jeroen/jsonlite
 ```
 
@@ -72,8 +72,8 @@ To save you from entering your password over and over, git includes a [credentia
  
 To see which helper is configured for a given repo, run:
 
-```sh
-git config credential.helper
+```{r}
+credential_helper_get()
 ```
 
 Most `git` installations default to `store` if supported because it is more convenient and secure. However the look and policy of the git credential store for entering and retrieving passwords can vary by system, because it uses the OS native password manager.
