@@ -15,7 +15,7 @@
     tryCatch({
       key <- find_ssh_key("github.com")
       if(length(key)){
-        packageStartupMessage(sprintf("SSH keyfile: %s", key))
+        packageStartupMessage(sprintf("SSH key: %s", key))
       } else {
         packageStartupMessage("No key found. Use ssh_keygen() to generate one!")
       }
