@@ -11,6 +11,21 @@ The `credentials` package contains tools for configuring and retrieving SSH and 
 
 ## Two types of remotes
 
+```{r echo=FALSE}
+library <- function(package){
+  withCallingHandlers(base::library(credentials), 
+                      packageStartupMessage = function(e) {
+                        cat(e$message)
+                        invokeRestart("muffleMessage")
+                      })
+}
+```
+
+
+```{r}
+library(credentials)
+```
+
 Git supports two types of remotes: SSH and HTTP. These two use completely distinct authentication systems. 
 
 
@@ -56,7 +71,6 @@ Most `git` installations default to `store` if supported because it is more conv
 The `credentials` R package provides a wrapper around the `git credential` command line API for reading and saving credentials. The `read_http_credential()` function looks up suitable credentials for a given URL from the store. If no credentials are available, it will attempt to prompt the user for credentials and return those instead.
 
 ```{r echo=FALSE}
-library(credentials)
 example <- list(protocol = "https", host = "example.com",
   username = "jeroen", password = "supersecret")
 credential_approve(example)
