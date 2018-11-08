@@ -28,7 +28,7 @@ tryCatch({
 })
 
 # If no key exists, generate one
-tryCatch(credentials::my_ssh_key(), function(e){
+tryCatch(credentials::my_ssh_key(), error = function(e){
   ssh_keygen()
 })
 ```
