@@ -109,8 +109,9 @@ git_with_sys <- function(command, input = NULL, verbose = TRUE){
   git <- find_git_cmd()
   outcon <- rawConnection(raw(0), "r+")
   on.exit(close(outcon), add = TRUE)
-  status <- sys::exec_wait(git, command,
-                           std_out = outcon, std_err = verbose, std_in = input)
+  timeout <- ifelse(interactive(), 120, 10)
+  status <- sys::exec_wait(git, command, std_out = outcon, std_err = verbose,
+                           std_in = input, timeout = timeout)
   if(!identical(status, 0L)){
     stop(sprintf("Failed to call 'git %s'", paste(command, collapse = " ")))
   }
