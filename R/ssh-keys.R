@@ -19,25 +19,23 @@
 #' @rdname ssh_credentials
 #' @name ssh_credentials
 #' @param host target host (only matters if you have configured specific keys per host)
+#' @param auto_keygen if `TRUE` automatically generates a key if none exists yet.
+#' Default `NA` is to prompt the user what to.
 #' @param password string or callback function for passphrase, see [openssl::read_key]
-my_ssh_key <- function(host = "github.com", password = askpass){
+my_ssh_key <- function(host = "github.com", auto_keygen = NA, password = askpass){
   keyfile <- find_ssh_key(host = host)
   if(is.null(keyfile)){
-    if(interactive()){
-      message("No SSH key found. Generate one now?")
-      if (utils::menu(c("Yes", "No")) != 1) {
-        return(NULL)
-      }
+    if(isTRUE(auto_keygen) || (is.na(auto_keygen) && ask_user("No SSH key found. Generate one now?"))){
       keyfile <- ssh_home('id_rsa')
       ssh_keygen(keyfile, open_github = FALSE)
     } else {
-      stop("Failed to find ssh key file")
+      stop(sprintf("Failed to find ssh key file for %s", host))
     }
   }
   pubfile <- paste0(keyfile, ".pub")
   if(!file.exists(pubfile)){
     key <- openssl::read_key(keyfile, password = password)
-    openssl::write_ssh(key$pubkey, pubfile)
+    try(openssl::write_ssh(key$pubkey, pubfile), silent = TRUE)
   }
   list(
     key = keyfile,
@@ -161,6 +159,13 @@ normalize_home <- function(path = NULL){
     path[is_home] <- paste0(homedir, substring(path[is_home], 2))
   }
   normalizePath(path, mustWork = FALSE)
+}
+
+ask_user <- function(str){
+  if(!interactive())
+    return(FALSE)
+  message(str)
+  return(utils::menu(c("Yes", "No")) == 1)
 }
 
 #' @importFrom openssl askpass
