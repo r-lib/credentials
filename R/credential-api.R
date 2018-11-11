@@ -134,12 +134,19 @@ find_git_cmd <- function(git = getOption("git", "git")){
   stop(sprintf("Could not find the '%s' command line util", git))
 }
 
-parse_url <- function(url){
+parse_url <- function(url, allow_ssh = TRUE){
   out <- strsplit(url, "://", fixed = TRUE)[[1]]
-  if(length(out) < 2)
-    stop("URL must start with e.g. https://")
-  protocol <- out[1]
-  rest <- out[2]
+  if(length(out) < 2){
+    if(!isTRUE(allow_ssh)){
+      stop(sprintf("URL must start with e.g. https:// (found %s)", url))
+    } else {
+      protocol = 'ssh'
+      rest = url
+    }
+  } else {
+    protocol <- out[1]
+    rest <- out[2]
+  }
   password <- NULL
   username <- if(grepl("^[^/]+@", rest)){
     auth <- strsplit(rest, "@", fixed = TRUE)[[1]]
