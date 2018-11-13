@@ -131,7 +131,7 @@ find_git_cmd <- function(git = getOption("git", "git")){
       }
     }
   }
-  stop(sprintf("Could not find the '%s' command line util", git))
+  stop(sprintf("Could not find the '%s' command line util", git), call. = FALSE)
 }
 
 parse_url <- function(url, allow_ssh = TRUE){

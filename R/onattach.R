@@ -7,7 +7,7 @@
                                   paste(helpers, collapse = ", ")))
   }, error = function(e){
     if(is_windows()){
-      packageStartupMessage("Git for Windows is not installed. Download: https://git-scm.com/download/win")
+      packageStartupMessage("Git for Windows is not installed.\nDownload from: https://git-scm.com/download/win")
     } else {
       packageStartupMessage("Unable to find git :-(")
     }
@@ -27,6 +27,6 @@
       packageStartupMessage("Failed to lookup key file")
     })
   }, error = function(e){
-    packageStartupMessage("Unable to find ssh :-(")
+    packageStartupMessage(e$message)
   })
 }

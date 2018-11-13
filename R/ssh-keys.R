@@ -94,7 +94,7 @@ find_ssh_key <- function(host = NULL){
   if(!length(host))
     host <- "*"
   key_paths <- tryCatch(ssh_identityfiles(host = host), error = function(e){
-    warning(e$message, call. = FALSE, immediate. = TRUE)
+    message(e$message)
     file.path("~/.ssh", c("id_rsa", "id_dsa", "id_ecdsa", "id_ed25519", "id_xmss"))
   })
   key_paths <- normalize_home(key_paths)
@@ -137,17 +137,19 @@ find_ssh_cmd <- function(ssh = getOption("ssh", "ssh")){
       gitssh <- git_with_sys(c("-c", "alias.sh=!sh", "sh", "-c", "cygpath -m $(which ssh)"))
       if(nchar(gitssh) && cmd_exists(gitssh))
         return(Sys.which(gitssh))
-    })
+    }, silent = TRUE)
     # Fallback: try to find ssh.exe ourselves in the usual places
-    bin <- dirname(git)
-    usrbin <- file.path(dirname(bin), "usr", "bin")
-    path <- Sys.getenv('PATH')
-    on.exit(Sys.setenv(PATH = path))
-    Sys.setenv(PATH = paste(path, bin, usrbin, sep = .Platform$path.sep))
-    if(cmd_exists(ssh))
-      return(Sys.which(ssh))
+    try({
+      bin <- dirname(find_git_cmd())
+      usrbin <- file.path(dirname(bin), "usr", "bin")
+      path <- Sys.getenv('PATH')
+      on.exit(Sys.setenv(PATH = path))
+      Sys.setenv(PATH = paste(path, bin, usrbin, sep = .Platform$path.sep))
+      if(cmd_exists(ssh))
+        return(Sys.which(ssh))
+    }, silent = TRUE)
   }
-  stop(sprintf("Could not find the '%s' command line util", ssh))
+  stop(sprintf("No '%s' command found. Using default ssh settings.", ssh), call. = FALSE)
 }
 
 normalize_home <- function(path = NULL){
