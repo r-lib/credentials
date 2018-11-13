@@ -113,7 +113,7 @@ git_with_sys <- function(command, input = NULL, verbose = TRUE){
   status <- sys::exec_wait(git, command, std_out = outcon, std_err = verbose,
                            std_in = input, timeout = timeout)
   if(!identical(status, 0L)){
-    stop(sprintf("Failed to call 'git %s'", paste(command, collapse = " ")))
+    stop(sprintf("Failed to call 'git %s'", paste(command, collapse = " ")), call. = FALSE)
   }
   trimws(rawToChar(rawConnectionValue(outcon)))
 }
