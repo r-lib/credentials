@@ -8,7 +8,7 @@
 #' @export
 #' @rdname credential_helper
 #' @name credential_helper
-credential_helper_ls <- function(){
+credential_helper_list <- function(){
   text <- git_with_sys(c("help", "-a"))
   m <- gregexpr("credential-[^ \t]+", text)
   regmatches(text, m)[[1]]
@@ -28,7 +28,7 @@ credential_helper_get <- function(global = FALSE){
 #' @export
 #' @rdname credential_helper
 #' @name credential_helper
-#' @param helper string with one of the supported helpers from [credential_helper_ls]
+#' @param helper string with one of the supported helpers from [credential_helper_list]
 credential_helper_set <- function(helper, global = FALSE){
   helper <- sub("^credential-", "", helper)
   args <- c("config", if(global) "--global", "credential.helper", helper)

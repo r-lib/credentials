@@ -2,12 +2,12 @@
 % Please edit documentation in R/credential-helpers.R
 \name{credential_helper}
 \alias{credential_helper}
-\alias{credential_helper_ls}
+\alias{credential_helper_list}
 \alias{credential_helper_get}
 \alias{credential_helper_set}
 \title{Credential Helpers}
 \usage{
-credential_helper_ls()
+credential_helper_list()
 
 credential_helper_get(global = FALSE)
 
@@ -17,7 +17,7 @@ credential_helper_set(helper, global = FALSE)
 \item{global}{if FALSE the setting is done per git repository, if
 TRUE it is in your global user git configuration.}
 
-\item{helper}{string with one of the supported helpers from \link{credential_helper_ls}}
+\item{helper}{string with one of the supported helpers from \link{credential_helper_list}}
 }
 \description{
 Git supports several back-end stores for HTTPS credentials called

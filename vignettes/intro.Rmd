@@ -24,7 +24,7 @@ library <- function(package){
 invisible(tryCatch({
   credentials::credential_helper_get()
 }, error = function(...){
-  helper <- credentials::credential_helper_ls()[1]
+  helper <- credentials::credential_helper_list()[1]
   credentials::credential_helper_set(helper, global = TRUE)
 }))
 

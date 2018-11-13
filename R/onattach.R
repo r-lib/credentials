@@ -2,7 +2,7 @@
   tryCatch({
     gitver <- git_with_sys("--version", NULL, FALSE)
     packageStartupMessage(sprintf("Found %s", gitver))
-    helpers <- sub("^credential-", "", credential_helper_ls())
+    helpers <- sub("^credential-", "", credential_helper_list())
     packageStartupMessage(sprintf("Supported HTTPS credential helpers: %s",
                                   paste(helpers, collapse = ", ")))
   }, error = function(e){
