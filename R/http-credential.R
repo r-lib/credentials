@@ -30,7 +30,7 @@
 git_credential_read <- function(url = "https://github.com", save = TRUE, verbose = TRUE){
   cred <- parse_url(url)
   out <- credential_fill(cred = cred, verbose = verbose)
-  if(isTRUE(save))
+  if(isTRUE(save) && !is.na(out$password))
     credential_approve(out, verbose = verbose)
   out
 }
