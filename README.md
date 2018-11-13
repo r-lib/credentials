@@ -24,9 +24,9 @@ You can install the released version of credentials from Github:
 remotes::install_github("r-lib/credentials")
 ```
 
-## HTTPS Credentials
+## HTTPS credentials
 
-Load or prompt the user for GitHub HTTPS credentials:
+Load or prompt the user for GitHub username and password:
 
 ```r
 library(credentials)
@@ -41,11 +41,22 @@ credentials::credential_helper_get()
 
 ## SSH keys
 
-Find the user SSH key, or prompt the user to generate one:
+Lookup the appropriate key, or prompt the user to generate one:
 
 ```r
 library(credentials)
 my_ssh_key()
 ```
 
-You can copy-paste the public key directly to your [GitHub profile])(https://github.com/settings/ssh/new).
+You can copy-paste the public key directly to your [GitHub profile])(https://github.com/settings/ssh/new)!
+
+## for developers
+
+Use the openssl package to read the user private key in R for encryption or signatures: 
+
+```r
+user <- my_ssh_key()
+key <- openssl::read_key(user$key)
+openssl::write_pem(key)
+```
+
