@@ -2,13 +2,13 @@
 % Please edit documentation in R/http-credential.R
 \name{http_credentials}
 \alias{http_credentials}
-\alias{git_credential_read}
+\alias{git_credential_ask}
 \alias{credentials}
 \alias{git_credential_update}
 \alias{git_credential_forget}
 \title{Load and store git HTTPS credentials}
 \usage{
-git_credential_read(url = "https://github.com", save = TRUE,
+git_credential_ask(url = "https://github.com", save = TRUE,
   verbose = TRUE)
 
 git_credential_update(url = "https://github.com", verbose = TRUE)
@@ -24,16 +24,18 @@ remember them.}
 \item{verbose}{print errors from \code{git credential} to stdout}
 }
 \description{
-This requires you have the \code{git} command line program installed.
-\link{git_credential_read} looks up a suitable username/password from
-the \href{https://git-scm.com/docs/gitcredentials}{git-credential store}.
-If none are available it will attempt
-to prompt the user for credentials and optionally also save those.
+This requires you have the \code{git} command line program installed.The
+\link{git_credential_ask} function looks up a suitable username/password
+from the \href{https://git-scm.com/docs/gitcredentials}{git-credential store}.
+If none are available it will prompt the user for credentials which
+may be saved the store. On subsequent calls for the same URL, the
+function will then return the stored credentials without prompting
+the user.
 }
 \details{
 The appearance and security policy of the credential store depends
-on your version of git, your operating system and which
-\link{credential_helper} is in use. On Windows and MacOS the credentials
+on your version of git, your operating system, your R frontend and
+which \link{credential_helper} is used. On Windows and MacOS the credentials
 are stored in the system password manager by default.
 
 It should be assumed that reading credentials always involves user

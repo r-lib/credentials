@@ -21,7 +21,7 @@ optionally also \code{path}, \code{username} ,\code{password}.}
 }
 \description{
 Low-level wrappers for the \href{https://git-scm.com/docs/git-credential}{git-credential}
-command line tool. Try the user-friendly \link{git_credential_read}
+command line tool. Try the user-friendly \link{git_credential_ask}
 and \link{git_credential_update} functions first.
 }
 \details{

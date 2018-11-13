@@ -30,7 +30,7 @@ Load or prompt the user for GitHub username and password:
 
 ```r
 library(credentials)
-git_credential_read('https://github.com')
+git_credential_ask('https://github.com')
 ```
 
 See which credential helper back-end your `git-credential` store is using:

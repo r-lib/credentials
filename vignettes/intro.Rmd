@@ -81,7 +81,7 @@ Most `git` installations default to `store` if supported because it is more conv
 
 ### Acessing the HTTPS Credential Store from R
 
-The `credentials` R package provides a wrapper around the `git credential` command line API for reading and saving credentials. The `git_credential_read()` function looks up suitable credentials for a given URL from the store. If no credentials are available, it will attempt to prompt the user for credentials and return those instead.
+The `credentials` R package provides a wrapper around the `git credential` command line API for reading and saving credentials. The `git_credential_ask()` function looks up suitable credentials for a given URL from the store. If no credentials are available, it will attempt to prompt the user for credentials and return those instead.
 
 ```{r echo=FALSE}
 example <- list(protocol = "https", host = "example.com",
@@ -91,7 +91,7 @@ credential_approve(example)
 
 ```{r}
 library(credentials)
-git_credential_read('https://example.com')
+git_credential_ask('https://example.com')
 ```
 
 The function `git_credential_update()` looks similar but it behaves slightly different: it first removes existing credentials from the store (if any), then prompt the user for a new username/password, and save these to the store.

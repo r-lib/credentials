@@ -1,7 +1,7 @@
 #' Retrieve and store git HTTPS credentials
 #'
 #' Low-level wrappers for the [git-credential](https://git-scm.com/docs/git-credential)
-#' command line tool. Try the user-friendly [git_credential_read]
+#' command line tool. Try the user-friendly [git_credential_ask]
 #' and [git_credential_update] functions first.
 #'
 #' The [credential_fill] function looks up credentials for a given host, and
