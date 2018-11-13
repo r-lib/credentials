@@ -48,11 +48,11 @@ library(credentials)
 my_ssh_key()
 ```
 
-You can copy-paste the public key directly to your [GitHub profile])(https://github.com/settings/ssh/new)!
+You can copy-paste the public key directly to your [GitHub profile](https://github.com/settings/ssh/new)!
 
-## for developers
+## For developers
 
-Use the openssl package to read the user private key in R for encryption or signatures: 
+Use the openssl package to read the user private key in R for encryption / signatures: 
 
 ```r
 user <- my_ssh_key()
