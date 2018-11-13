@@ -18,6 +18,7 @@
 #' @family credentials
 #' @rdname ssh_credentials
 #' @name ssh_credentials
+#' @importFrom openssl askpass
 #' @param host target host (only matters if you have configured specific keys per host)
 #' @param auto_keygen if `TRUE` automatically generates a key if none exists yet.
 #' Default `NA` is to prompt the user what to.
@@ -171,7 +172,3 @@ ask_user <- function(str){
   message(str)
   return(utils::menu(c("Yes", "No")) == 1)
 }
-
-#' @importFrom openssl askpass
-#' @export
-openssl::askpass
