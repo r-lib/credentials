@@ -111,9 +111,12 @@ ssh_identityfiles <- function(host){
   unique(unlist(conf[names(conf) == 'identityfile']))
 }
 
+# Old SSH versions (Trusty, CentOS) do not support ssh -G
 ssh_config <- function(host){
   ssh <- find_ssh_cmd()
-  out <- sys::exec_internal(ssh, c("-G", host))
+  out <- sys::exec_internal(ssh, c("-G", host), error = FALSE)
+  if(!identical(out$status, 0L))
+    stop("Could not read ssh config. Using default settings.", call. = FALSE)
   txt <- strsplit(rawToChar(out$stdout), "\r?\n")[[1]]
   lines <- strsplit(txt, " ", fixed = TRUE)
   names <- vapply(lines, `[`, character(1), 1)
