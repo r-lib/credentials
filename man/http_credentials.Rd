@@ -7,12 +7,16 @@
 \alias{git_credential_update}
 \title{Lookup HTTP passwords from the git credential store}
 \usage{
-git_credential_read(url = "https://github.com", verbose = TRUE)
+git_credential_read(url = "https://github.com", save = TRUE,
+  verbose = TRUE)
 
 git_credential_update(url = "https://github.com", verbose = TRUE)
 }
 \arguments{
 \item{url}{target url, possibly including username or path}
+
+\item{save}{in case the user is prompted for credentials, attempt to
+remember them.}
 
 \item{verbose}{print errors from \code{git credetial} to stdout}
 }
@@ -22,6 +26,11 @@ This requires you have the \code{git} command line program installed.
 the \code{git-credential} store. If none are available it will attempt
 to prompt the user for credentials and return those.
 Use \link{git_credential_update} to update the credential for a given url.
+}
+\details{
+The appearance and security policy of the credential store depends
+on your the configuration of the version of git, your operating system
+and which \link{credential_helper} is in use.
 }
 \seealso{
 Other credentials: \code{\link{ssh_credentials}}
