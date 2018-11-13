@@ -5,12 +5,15 @@
 \alias{git_credential_read}
 \alias{credentials}
 \alias{git_credential_update}
+\alias{git_credential_forget}
 \title{Lookup HTTP passwords from the git credential store}
 \usage{
 git_credential_read(url = "https://github.com", save = TRUE,
   verbose = TRUE)
 
 git_credential_update(url = "https://github.com", verbose = TRUE)
+
+git_credential_forget(url = "https://github.com", verbose = TRUE)
 }
 \arguments{
 \item{url}{target url, possibly including username or path}

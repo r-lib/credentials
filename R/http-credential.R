@@ -36,3 +36,10 @@ git_credential_update <- function(url = "https://github.com", verbose = TRUE){
   credential_approve(out)
 }
 
+#' @export
+#' @rdname http_credentials
+git_credential_forget <- function(url = "https://github.com", verbose = TRUE){
+  cred <- parse_url(url)
+  credential_reject(cred)
+}
+
