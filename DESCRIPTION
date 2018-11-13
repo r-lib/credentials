@@ -4,7 +4,13 @@ Title: Tools for Managing SSH and Git Credentials
 Version: 0.1
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
-Description: Lookup HTTPS or SSH credentials for git remotes.
+Description: Setup and retrieve HTTPS and SSH credentials for use with 'git' and 
+    other services. For HTTPS remotes the package interfaces the 'git-credential' 
+    utility which 'git' uses to store HTTP usernames and passwords. For SSH 
+    remotes we provide convenient functions to find or generate appropriate SSH 
+    keys. The package both helps the user to setup a local git installation, and
+    also provides a back-end for git/ssh client libraries to authenticate with 
+    existing user credentials.
 License: MIT + file LICENSE
 SystemRequirements: git (optional)
 Encoding: UTF-8
