@@ -22,7 +22,7 @@
 #' @param auto_keygen if `TRUE` automatically generates a key if none exists yet.
 #' Default `NA` is to prompt the user what to.
 #' @param password string or callback function for passphrase, see [openssl::read_key]
-my_ssh_key <- function(host = "github.com", auto_keygen = NA, password = askpass){
+my_ssh_key <- function(host = NULL, auto_keygen = NA, password = askpass){
   keyfile <- find_ssh_key(host = host)
   if(is.null(keyfile)){
     if(isTRUE(auto_keygen) || (is.na(auto_keygen) && ask_user("No SSH key found. Generate one now?"))){
@@ -90,7 +90,9 @@ ssh_home <- function(file = NULL){
 }
 
 
-find_ssh_key <- function(host){
+find_ssh_key <- function(host = NULL){
+  if(!length(host))
+    host <- "*"
   key_paths <- tryCatch(ssh_identityfiles(host = host), error = function(e){
     warning(e$message, call. = FALSE, immediate. = TRUE)
     file.path("~/.ssh", c("id_rsa", "id_dsa", "id_ecdsa", "id_ed25519", "id_xmss"))

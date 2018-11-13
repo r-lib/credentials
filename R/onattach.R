@@ -3,19 +3,23 @@
     gitver <- git_with_sys("--version", NULL, FALSE)
     packageStartupMessage(sprintf("Found %s", gitver))
     helpers <- sub("^credential-", "", credential_helper_ls())
-    packageStartupMessage(sprintf("Supported git-credential helpers: %s",
+    packageStartupMessage(sprintf("Supported HTTPS credential helpers: %s",
                                   paste(helpers, collapse = ", ")))
   }, error = function(e){
-    packageStartupMessage("Failed to find git :(")
+    if(is_windows()){
+      packageStartupMessage("Git for Windows is not installed. Download: https://git-scm.com/download/win")
+    } else {
+      packageStartupMessage("Unable to find git :-(")
+    }
   })
 
   tryCatch({
     sshver <- ssh_version()
     packageStartupMessage(sprintf("Found %s", sshver))
     tryCatch({
-      key <- find_ssh_key("github.com")
+      key <- find_ssh_key()
       if(length(key)){
-        packageStartupMessage(sprintf("SSH key: %s", key))
+        packageStartupMessage(sprintf("Default SSH key: %s", key))
       } else {
         packageStartupMessage("No key found. Use ssh_keygen() to generate one!")
       }
@@ -23,6 +27,6 @@
       packageStartupMessage("Failed to lookup key file")
     })
   }, error = function(e){
-    packageStartupMessage("Failed to find ssh :(")
+    packageStartupMessage("Unable to find ssh :-(")
   })
 }

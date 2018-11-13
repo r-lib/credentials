@@ -7,7 +7,7 @@
 \alias{ssh_home}
 \title{Your SSH key}
 \usage{
-my_ssh_key(host = "github.com", auto_keygen = NA, password = askpass)
+my_ssh_key(host = NULL, auto_keygen = NA, password = askpass)
 
 ssh_keygen(file = ssh_home("id_rsa"), open_github = interactive())
 
