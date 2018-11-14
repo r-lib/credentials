@@ -49,7 +49,7 @@ credential_fill <- function(cred, verbose = TRUE){
   data <- strsplit(out, "=", fixed = TRUE)
   key <- vapply(data, `[`, character(1), 1)
   val <- vapply(data, `[`, character(1), 2)
-  as.list(structure(val, names = key))
+  structure(as.list(structure(val, names = key)), class = 'git_credendial')
 }
 
 #' @export
