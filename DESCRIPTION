@@ -15,7 +15,7 @@ License: MIT + file LICENSE
 SystemRequirements: git (optional)
 Encoding: UTF-8
 Imports:
-    openssl,
+    openssl (>= 1.1),
     sys (>= 2.1)
 Suggests: 
     testthat,
