@@ -1,5 +1,6 @@
 .onLoad <- function(libname, pkgname){
-  if(is_macos()){
+  # This is mostly for R.app (tty could mean macos server via ssh)
+  if(is_macos() && !isatty(stdin())){
     mac_askpass = system.file('mac-askpass', package = 'credentials', mustWork = TRUE)
     if(is.na(Sys.getenv('GIT_ASKPASS', NA))){
       Sys.setenv("GIT_ASKPASS" = mac_askpass)
