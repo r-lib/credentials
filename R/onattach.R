@@ -1,12 +1,12 @@
 .onLoad <- function(libname, pkgname){
   if(is_macos()){
     mac_askpass = system.file('mac-askpass', package = 'credentials', mustWork = TRUE)
-    #if(is.na(Sys.getenv('GIT_ASKPASS', NA))){
+    if(is.na(Sys.getenv('GIT_ASKPASS', NA))){
       Sys.setenv("GIT_ASKPASS" = mac_askpass)
-    #}
-    #if(is.na(Sys.getenv('SSH_ASKPASS', NA))){
+    }
+    if(is.na(Sys.getenv('SSH_ASKPASS', NA))){
       Sys.setenv("SSH_ASKPASS" = mac_askpass)
-   # }
+    }
   }
 }
 
