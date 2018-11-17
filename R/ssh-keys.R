@@ -18,12 +18,10 @@
 #' @family credentials
 #' @rdname ssh_credentials
 #' @name ssh_credentials
-#' @importFrom openssl askpass
 #' @param host target host (only matters if you have configured specific keys per host)
 #' @param auto_keygen if `TRUE` automatically generates a key if none exists yet.
 #' Default `NA` is to prompt the user what to.
-#' @param password string or callback function for passphrase, see [openssl::read_key]
-my_ssh_key <- function(host = NULL, auto_keygen = NA, password = askpass){
+my_ssh_key <- function(host = NULL, auto_keygen = NA){
   keyfile <- find_ssh_key(host = host)
   if(is.null(keyfile)){
     if(isTRUE(auto_keygen) || (is.na(auto_keygen) && ask_user("No SSH key found. Generate one now?"))){
@@ -35,7 +33,7 @@ my_ssh_key <- function(host = NULL, auto_keygen = NA, password = askpass){
   }
   pubfile <- paste0(keyfile, ".pub")
   if(!file.exists(pubfile)){
-    key <- openssl::read_key(keyfile, password = password)
+    key <- openssl::read_key(keyfile)
     try(openssl::write_ssh(key$pubkey, pubfile), silent = TRUE)
   }
   list(
@@ -90,6 +88,11 @@ ssh_home <- function(file = NULL){
   }
 }
 
+#' @export
+#' @rdname ssh_credentials
+ssh_agent_add <- function(file = NULL){
+  sys::exec_wait('ssh-add', as.character(file)) == 0
+}
 
 find_ssh_key <- function(host = NULL){
   if(!length(host))

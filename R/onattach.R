@@ -1,12 +1,13 @@
+# We load 'askpass' for its side effects, see below!
+#' @importFrom askpass ssh_askpass
 .onLoad <- function(libname, pkgname){
-  # This is mostly for R.app (tty could mean macos server via ssh)
-  if(is_macos() && !isatty(stdin())){
-    mac_askpass = system.file('mac-askpass', package = 'credentials', mustWork = TRUE)
-    if(is.na(Sys.getenv('GIT_ASKPASS', NA))){
-      Sys.setenv("GIT_ASKPASS" = mac_askpass)
-    }
-    if(is.na(Sys.getenv('SSH_ASKPASS', NA))){
-      Sys.setenv("SSH_ASKPASS" = mac_askpass)
+  # Loading askpass automatically sets SSH_ASKPASS and GIT_ASKPASS variables
+  askpass::ssh_askpass()
+
+  # Note: isatty(stdin()) = TRUE in Windows RGui
+  if(is_windows() || !interactive() || !isatty(stdin())){
+    if(is.na(Sys.getenv('GIT_TERMINAL_PROMPT', NA))){
+      Sys.setenv(GIT_TERMINAL_PROMPT=0)
     }
   }
 }

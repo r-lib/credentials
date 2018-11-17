@@ -16,11 +16,13 @@ SystemRequirements: git (optional)
 Encoding: UTF-8
 Imports:
     openssl (>= 1.1),
-    sys (>= 2.1)
+    sys (>= 2.1),
+    askpass
 Suggests: 
     testthat,
     knitr,
     rmarkdown
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
+Remotes: jeroen/askpass

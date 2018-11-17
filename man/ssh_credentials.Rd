@@ -5,21 +5,22 @@
 \alias{my_ssh_key}
 \alias{ssh_keygen}
 \alias{ssh_home}
+\alias{ssh_agent_add}
 \title{Your SSH key}
 \usage{
-my_ssh_key(host = NULL, auto_keygen = NA, password = askpass)
+my_ssh_key(host = NULL, auto_keygen = NA)
 
 ssh_keygen(file = ssh_home("id_rsa"), open_github = interactive())
 
 ssh_home(file = NULL)
+
+ssh_agent_add(file = NULL)
 }
 \arguments{
 \item{host}{target host (only matters if you have configured specific keys per host)}
 
 \item{auto_keygen}{if \code{TRUE} automatically generates a key if none exists yet.
 Default \code{NA} is to prompt the user what to.}
-
-\item{password}{string or callback function for passphrase, see \link[openssl:read_key]{openssl::read_key}}
 
 \item{file}{destination path of the private key. For the public key, \code{.pub}
 is appended to the filename.}

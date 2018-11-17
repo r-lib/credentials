@@ -71,20 +71,6 @@ credential_reject <- function(cred, verbose = TRUE){
 credential_exec <- function(command, cred, verbose){
   input <- cred_to_input(cred)
   on.exit(unlink(input))
-  if(is_windows() || !interactive() || !isatty(stdin())){
-    # Note: isatty(stdin()) = TRUE in Windows RGui
-    if(!nchar(Sys.getenv('GIT_TERMINAL_PROMPT'))){
-      Sys.setenv(GIT_TERMINAL_PROMPT=0)
-      on.exit(Sys.unsetenv('GIT_TERMINAL_PROMPT'))
-    }
-  }
-  rs_path <- Sys.getenv('RS_RPOSTBACK_PATH')
-  if(nchar(rs_path)){
-    old_path <- Sys.getenv("PATH")
-    on.exit(Sys.setenv(PATH = old_path))
-    rs_path <- unique(c(rs_path, sub("rpostback", 'postback', rs_path)))
-    Sys.setenv(PATH = paste(c(old_path, rs_path), collapse = .Platform$path.sep))
-  }
   if(is_windows() || is_macos() || !isatty(stdin())){
     text <- git_with_sys(c("credential", command), input = input, verbose = verbose)
     strsplit(text, "\n", fixed = TRUE)[[1]]
