@@ -27,7 +27,7 @@ remotes::install_github("r-lib/credentials")
 Automatically populate your `GITHUB_PAT` environment variable. The credential manager will safely prompt the user for credentials when needed.
 
 ```r
-set_github_pat()
+credentials::set_github_pat()
 ```
 
 Use this function in your `.Rprofile` if you want to automatically set `GITHUB_PAT` for each R session, without hardcoding your any secrets in plain text.
