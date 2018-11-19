@@ -17,7 +17,6 @@ manager, which \code{git} itself uses for storing passwords. The credential mana
 will automatically and securily prompt the user for credentials when needed.
 }
 \details{
-You can use this function in your \link[=Startup]{.Rprofile} script if you want to
-automatically set \code{GITHUB_PAT} for each R session, without hardcoding your any
-secrets in plain text.
+Use this function in your \link[=Startup]{.Rprofile} script to automatically set
+\code{GITHUB_PAT} for each R session without hardcoding your any secrets in plain text.
 }

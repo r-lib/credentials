@@ -16,15 +16,23 @@ Tools for Managing SSH and Git Credentials
   also provides a back-end for git/ssh client libraries to authenticate with 
   existing user credentials.
 
-## Installation
-
-You can install the released version of credentials from Github:
+You can install the latest version from Github:
 
 ``` r
 remotes::install_github("r-lib/credentials")
 ```
 
-## HTTPS credentials
+### Setting your GITHUB_PAT
+
+Automatically populate your `GITHUB_PAT` environment variable. The credential manager will safely prompt the user for credentials when needed.
+
+```r
+set_github_pat()
+```
+
+Use this function in your `.Rprofile` if you want to automatically set `GITHUB_PAT` for each R session, without hardcoding your any secrets in plain text.
+
+### Manage HTTPS credentials
 
 Load or prompt the user for GitHub username and password:
 
@@ -39,7 +47,7 @@ See which credential helper back-end your `git-credential` store is using:
 credentials::credential_helper_get()
 ```
 
-## SSH keys
+### Manage SSH keys
 
 Lookup the appropriate key, or prompt the user to generate one:
 
