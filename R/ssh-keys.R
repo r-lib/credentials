@@ -91,6 +91,9 @@ ssh_home <- function(file = NULL){
 #' @export
 #' @rdname ssh_credentials
 ssh_agent_add <- function(file = NULL){
+  if(is.na(Sys.getenv('SSH_AUTH_SOCK', NA))){
+    stop("ssh-agent is not running. If this is a server ssh in with: ssh -o 'ForwardAgent=yes'")
+  }
   sys::exec_wait('ssh-add', as.character(file)) == 0
 }
 
