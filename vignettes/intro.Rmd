@@ -20,14 +20,6 @@ library <- function(package){
                       })
 }
 
-# If no credential helper has been set, use the 'cache' helper
-invisible(tryCatch({
-  credentials::credential_helper_get()
-}, error = function(...){
-  helper <- credentials::credential_helper_list()[1]
-  credentials::credential_helper_set(helper, global = TRUE)
-}))
-
 # If no key exists, generate one
 invisible(tryCatch(credentials::my_ssh_key(), error = function(e){
   credentials::ssh_keygen()

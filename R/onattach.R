@@ -10,6 +10,14 @@
       Sys.setenv(GIT_TERMINAL_PROMPT=0)
     }
   }
+
+  # If no credential helper has been set, use the 'cache' helper
+  invisible(tryCatch({
+    credential_helper_get()
+  }, error = function(...){
+    helper <- credential_helper_list()[1]
+    credential_helper_set(helper, global = TRUE)
+  }))
 }
 
 .onAttach <- function(libname, pkgname){

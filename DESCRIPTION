@@ -17,6 +17,8 @@ Encoding: UTF-8
 Imports:
     openssl (>= 1.1),
     sys (>= 2.1),
+    curl,
+    jsonlite,
     askpass
 Suggests: 
     testthat,
