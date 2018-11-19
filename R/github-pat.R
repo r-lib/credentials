@@ -1,8 +1,8 @@
 #' Set your Github Personal Access Token
 #'
-#' Automatically sets the `GITHUB_PAT` environment variable. This function
-#' calls out to the [git_credential][http_credentials] store, which
-#' automatically and securely prompts the user for credentials if needed.
+#' Populates the `GITHUB_PAT` environment variable using the [git_credential][http_credentials]
+#' manager, which `git` itself uses for storing passwords. The credential manager
+#' will automatically and securily prompt the user for credentials when needed.
 #'
 #' @export
 #' @param force_new forget existing pat, always ask for new one
@@ -14,7 +14,8 @@ set_github_pat <- function(force_new = FALSE, verbose = TRUE){
     cred <- git_credential_ask('https://github.com', verbose = verbose)
     if(length(cred$password)){
       if(nchar(cred$password) < 40){
-        message("Please enter a PAT in the password field! Not your master password!")
+        message("Please enter a token in the password field, not your master password! Let's try again :-)")
+        message("To generate a new token, visit: https://github.com/settings/tokens")
         credential_reject(cred)
       } else {
         hx <- curl::handle_setheaders(curl::new_handle(), Authorization = paste("token", cred$password))
@@ -26,7 +27,8 @@ set_github_pat <- function(force_new = FALSE, verbose = TRUE){
           data <- jsonlite::fromJSON(rawToChar(req$content))
           if(verbose == TRUE){
             Sys.setenv(GITHUB_PAT = cred$password)
-            message(sprintf("Using GITHUB_PAT from %s", data$name))
+            helper <- tryCatch(credential_helper_get()[1], error = "??")
+            message(sprintf("Using GITHUB_PAT from %s (credential helper: %s)", data$name, helper))
             return(invisible())
           }
         }

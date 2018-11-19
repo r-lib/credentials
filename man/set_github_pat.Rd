@@ -12,7 +12,7 @@ set_github_pat(force_new = FALSE, verbose = TRUE)
 \item{verbose}{print some debugging messages}
 }
 \description{
-Automatically sets the \code{GITHUB_PAT} environment variable. This function
-calls out to the \link[=http_credentials]{git_credential} store, which
-automatically and securely prompts the user for credentials if needed.
+Populates the \code{GITHUB_PAT} environment variable using the \link[=http_credentials]{git_credential}
+manager, which \code{git} itself uses for storing passwords. The credential manager
+will automatically and securily prompt the user for credentials when needed.
 }
