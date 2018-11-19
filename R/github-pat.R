@@ -12,9 +12,9 @@
 #' @param verbose print some debugging messages
 set_github_pat <- function(force_new = FALSE, verbose = TRUE){
   if(isTRUE(force_new))
-    git_credential_forget('https://github.com')
+    git_credential_forget('https://token@github.com')
   for(i in 1:3){
-    cred <- git_credential_ask('https://github.com', verbose = verbose)
+    cred <- git_credential_ask('https://token@github.com', verbose = verbose)
     if(length(cred$password)){
       if(nchar(cred$password) < 40){
         message("Please enter a token in the password field, not your master password! Let's try again :-)")
