@@ -24,7 +24,7 @@ remotes::install_github("r-lib/credentials")
 
 ### Setting your GITHUB_PAT
 
-Automatically populate your `GITHUB_PAT` environment variable. The credential manager will safely prompt the user for credentials when needed.
+Automatically populate your `GITHUB_PAT` environment variable from the native git credential store. The credential manager will safely prompt the user for credentials when needed.
 
 ```r
 credentials::set_github_pat()
