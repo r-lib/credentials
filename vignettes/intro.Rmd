@@ -50,6 +50,7 @@ Windows does not include a native `git` installation by default. We recommended 
 
 Important: ssh keys are stored in your home directory for example: `C:\Users\Jeroen\.ssh\id_rsa`, and __not in the Documents folder__ (which is what R treats as the home sometimes). The `ssh_home()` function shows the correct `.ssh` directory on all platforms.
 
+
 ## Part 1: Storing HTTPS credentials
 
 HTTPS remotes do not always require authentication. You can clone from a public repository without providing any credentials. But for pushing, or private repositories, `git` will prompt for a username/password.
@@ -100,6 +101,16 @@ In a terminal window this will result in an interactive password prompt. In Wind
 ```{r echo=FALSE}
 credential_reject(list(protocol = "https", host = "example.com"))
 ```
+
+### Setting your GITHUB_PAT
+
+Automatically populate your `GITHUB_PAT` environment variable from the native git credential store. The credential manager will safely prompt the user for credentials when needed.
+
+```r
+credentials::set_github_pat()
+```
+
+Use this function in your `.Rprofile` if you want to automatically set `GITHUB_PAT` for each R session, without hardcoding your any secrets in plain text.
 
 ### Non-interactive use
 
