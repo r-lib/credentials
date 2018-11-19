@@ -13,6 +13,13 @@
 set_github_pat <- function(force_new = FALSE, verbose = TRUE){
   if(isTRUE(force_new))
     git_credential_forget('https://token@github.com')
+  askpass <- Sys.getenv('GIT_ASKPASS')
+  if(nchar(askpass)){
+    Sys.setenv(GIT_ASKTOKEN = askpass)
+    Sys.setenv(GIT_ASKPASS = system.file('ask_token.sh', package = 'credentials', mustWork = TRUE))
+    on.exit(Sys.setenv(GIT_ASKPASS = askpass), add = TRUE)
+    on.exit(Sys.unsetenv('GIT_ASKTOKEN'), add = TRUE)
+  }
   for(i in 1:3){
     cred <- git_credential_ask('https://token@github.com', verbose = verbose)
     if(length(cred$password)){
