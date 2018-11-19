@@ -4,6 +4,10 @@
 #' manager, which `git` itself uses for storing passwords. The credential manager
 #' will automatically and securily prompt the user for credentials when needed.
 #'
+#' You can use this function in your [.Rprofile][Startup] script if you want to
+#' automatically set `GITHUB_PAT` for each R session, without hardcoding your any
+#' secrets in plain text.
+#'
 #' @export
 #' @param force_new forget existing pat, always ask for new one
 #' @param verbose print some debugging messages

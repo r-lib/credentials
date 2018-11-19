@@ -16,3 +16,8 @@ Populates the \code{GITHUB_PAT} environment variable using the \link[=http_crede
 manager, which \code{git} itself uses for storing passwords. The credential manager
 will automatically and securily prompt the user for credentials when needed.
 }
+\details{
+You can use this function in your \link[=Startup]{.Rprofile} script if you want to
+automatically set \code{GITHUB_PAT} for each R session, without hardcoding your any
+secrets in plain text.
+}
