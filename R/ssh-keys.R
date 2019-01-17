@@ -48,18 +48,24 @@ my_ssh_key <- function(host = NULL, auto_keygen = NA){
 #' is appended to the filename.
 #' @param open_github automatically open a browser window to let the user
 #' add the key to Github.
-#' @importFrom openssl write_ssh write_pem read_key write_pkcs1
+#' @importFrom openssl write_ssh write_pem read_key write_pkcs1 read_pubkey
 ssh_keygen <- function(file = ssh_home('id_rsa'), open_github = interactive()){
   private_key <- normalizePath(file, mustWork = FALSE)
+  pubkey_path <- paste0(private_key, ".pub")
   if(file.exists(private_key)){
     cat(sprintf("Found existing RSA keyspair at: %s\n", private_key), file = stderr())
-    key <- read_key(file)
+    pubkey <- if(file.exists(pubkey_path)){
+      read_pubkey(pubkey_path)
+    } else {
+      read_key(private_key)$pubkey
+    }
   } else {
     cat(sprintf("Generating new RSA keyspair at: %s\n", private_key), file = stderr())
     key <- openssl::rsa_keygen()
+    pubkey <- key$pubkey
     dir.create(dirname(private_key), showWarnings = FALSE)
     write_pkcs1(key, private_key)
-    write_ssh(key$pubkey, paste0(private_key, '.pub'))
+    write_ssh(pubkey, pubkey_path)
   }
 
   # See https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
@@ -74,7 +80,7 @@ ssh_keygen <- function(file = ssh_home('id_rsa'), open_github = interactive()){
   }
   list(
     key = private_key,
-    pubkey = write_ssh(key$pubkey)
+    pubkey = write_ssh(pubkey)
   )
 }
 
