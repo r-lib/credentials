@@ -15,7 +15,7 @@ License: MIT + file LICENSE
 SystemRequirements: git (optional)
 Encoding: UTF-8
 Imports:
-    openssl (>= 1.1),
+    openssl (>= 1.2),
     sys (>= 2.1),
     curl,
     jsonlite,
@@ -27,4 +27,3 @@ Suggests:
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
-Remotes: jeroen/askpass
