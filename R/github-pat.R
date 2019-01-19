@@ -14,7 +14,7 @@ set_github_pat <- function(force_new = FALSE, verbose = TRUE){
   if(isTRUE(force_new))
     git_credential_forget('https://token@github.com')
   if(isTRUE(verbose))
-    message("When prompted for GitHub credentials, enter your PAT in the password field!")
+    message("If prompted for GitHub credentials, enter your PAT in the password field")
   askpass <- Sys.getenv('GIT_ASKPASS')
   if(nchar(askpass)){
     # Hack to override prompt sentence to say "Token" instead of "Password"
