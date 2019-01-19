@@ -184,3 +184,19 @@ ask_user <- function(str){
   message(str)
   return(utils::menu(c("Yes", "No")) == 1)
 }
+
+#' @export
+#' @rdname ssh_credentials
+ssh_update_passphrase <- function(file = ssh_home("id_rsa")){
+  key <- openssl::read_key(file, password = function(x){
+    askpass::askpass("Please enter your _current_ passphrase")
+  })
+  new1 <- askpass::askpass("Enter the _new_ passphrase")
+  new2 <- askpass::askpass("To confirm, the your _new_ passphrase again")
+  if(identical(new1, new2)){
+    openssl::write_pkcs1(key, path = file, password = new1)
+  } else {
+    stop("Entered passhprases are not identical")
+  }
+  message("Passphrase has been updated!")
+}

@@ -6,6 +6,7 @@
 \alias{ssh_keygen}
 \alias{ssh_home}
 \alias{ssh_agent_add}
+\alias{ssh_update_passphrase}
 \title{Your SSH key}
 \usage{
 my_ssh_key(host = NULL, auto_keygen = NA)
@@ -15,6 +16,8 @@ ssh_keygen(file = ssh_home("id_rsa"), open_github = interactive())
 ssh_home(file = NULL)
 
 ssh_agent_add(file = NULL)
+
+ssh_update_passphrase(file = ssh_home("id_rsa"))
 }
 \arguments{
 \item{host}{target host (only matters if you have configured specific keys per host)}
