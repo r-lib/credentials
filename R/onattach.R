@@ -13,7 +13,8 @@
 
   # Start ssh-agent if available but not running
   if(is_windows() && is.na(Sys.getenv('SSH_AGENT_PID', NA)) && cmd_exists('start-ssh-agent')){
-    ssh_agent_start()
+    # Agent not work in Windows: https://github.com/libgit2/libgit2/issues/4958
+    #ssh_agent_start()
   }
 
   # If no credential helper has been set, use the 'cache' helper
@@ -56,8 +57,8 @@
   }, error = function(e){
     packageStartupMessage(e$message)
   })
-  agent_output <- ssh_agent_start()
-  if(length(agent_output) && nchar(agent_output)){
-    packageStartupMessage(trimws(agent_output))
-  }
+  #agent_output <- ssh_agent_start()
+  #if(length(agent_output) && nchar(agent_output)){
+  #  packageStartupMessage(trimws(agent_output))
+  #}
 }
