@@ -13,7 +13,7 @@
 
   # Start ssh-agent if available but not running
   if(is_windows() && is.na(Sys.getenv('SSH_AGENT_PID', NA)) && cmd_exists('start-ssh-agent')){
-    ssh_agent_start(verbose = FALSE)
+    ssh_agent_start()
   }
 
   # If no credential helper has been set, use the 'cache' helper
@@ -56,6 +56,8 @@
   }, error = function(e){
     packageStartupMessage(e$message)
   })
-
-  try(ssh_agent_start(verbose = TRUE))
+  agent_output <- ssh_agent_start()
+  if(length(agent_output) && nchar(agent_output)){
+    packageStartupMessage(trimws(agent_output))
+  }
 }

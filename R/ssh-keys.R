@@ -104,16 +104,23 @@ ssh_agent_add <- function(file = NULL){
 }
 
 # Only used on Windows for now
-ssh_agent_start <- function(verbose = TRUE){
+ssh_agent_start <- function(){
   if(is_windows()){
-    tmp <- tempfile()
-    out <- sys::exec_wait('cmd', c('/C', 'start-ssh-agent 1>&2 && set'), std_out = tmp, std_err = verbose)
-    if(out != 0)
-      stop("Failed to start ssh-agent")
-    vars <- readLines(tmp)
-    vars <- vars[grepl('^SSH_(AGENT|AUTH)', vars)]
-    writeLines(vars, tmp)
-    readRenviron(tmp)
+    out <- sys::exec_internal('cmd', c('/C', 'start-ssh-agent 1>&2 && set'), error = FALSE)
+    if(out$status != 0){
+      warning("Failed to start ssh-agent", call. = FALSE)
+    } else{
+      con <- rawConnection(out$stdout)
+      on.exit(close(con))
+      vars <- readLines(con)
+      vars <- vars[grepl('^SSH_(AGENT|AUTH)', vars)]
+      if(length(vars)){
+        tmp <- tempfile()
+        writeLines(vars, tmp)
+        readRenviron(tmp)
+      }
+    }
+    return(rawToChar(out$stderr))
   }
 }
 
