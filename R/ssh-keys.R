@@ -3,11 +3,11 @@
 #' Utility functions to find or generate your SSH key for use with git remotes
 #' or other ssh servers.
 #'
-#' Use [my_ssh_key()] to find the appropriate key file on your system to connect with a
+#' Use [ssh_key_info()] to find the appropriate key file on your system to connect with a
 #' given target host. In most cases this will simply be `ssh_home('id_rsa')` unless
 #' you have configured ssh to use specific keys for specific hosts.
 #'
-#' To use your key to authenticate with GitHub, copy the pubkey from `my_ssh_key()` to
+#' To use your key to authenticate with GitHub, copy the pubkey from `ssh_key_info()` to
 #' your profile: \url{https://github.com/settings/ssh/new}.
 #'
 #' If this is the first time you use ssh, [ssh_keygen] can help generate a key and
@@ -21,7 +21,7 @@
 #' @param host target host (only matters if you have configured specific keys per host)
 #' @param auto_keygen if `TRUE` automatically generates a key if none exists yet.
 #' Default `NA` is to prompt the user what to.
-my_ssh_key <- function(host = NULL, auto_keygen = NA){
+ssh_key_info <- function(host = NULL, auto_keygen = NA){
   keyfile <- find_ssh_key(host = host)
   if(is.null(keyfile)){
     if(isTRUE(auto_keygen) || (is.na(auto_keygen) && ask_user("No SSH key found. Generate one now?"))){

@@ -2,14 +2,14 @@
 % Please edit documentation in R/ssh-keys.R
 \name{ssh_credentials}
 \alias{ssh_credentials}
-\alias{my_ssh_key}
+\alias{ssh_key_info}
 \alias{ssh_keygen}
 \alias{ssh_home}
 \alias{ssh_agent_add}
 \alias{ssh_update_passphrase}
 \title{Your SSH key}
 \usage{
-my_ssh_key(host = NULL, auto_keygen = NA)
+ssh_key_info(host = NULL, auto_keygen = NA)
 
 ssh_keygen(file = ssh_home("id_rsa"), open_github = interactive())
 
@@ -36,11 +36,11 @@ Utility functions to find or generate your SSH key for use with git remotes
 or other ssh servers.
 }
 \details{
-Use \code{\link[=my_ssh_key]{my_ssh_key()}} to find the appropriate key file on your system to connect with a
+Use \code{\link[=ssh_key_info]{ssh_key_info()}} to find the appropriate key file on your system to connect with a
 given target host. In most cases this will simply be \code{ssh_home('id_rsa')} unless
 you have configured ssh to use specific keys for specific hosts.
 
-To use your key to authenticate with GitHub, copy the pubkey from \code{my_ssh_key()} to
+To use your key to authenticate with GitHub, copy the pubkey from \code{ssh_key_info()} to
 your profile: \url{https://github.com/settings/ssh/new}.
 
 If this is the first time you use ssh, \link{ssh_keygen} can help generate a key and
