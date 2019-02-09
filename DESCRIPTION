@@ -2,8 +2,8 @@ Package: credentials
 Type: Package
 Title: Tools for Managing SSH and Git Credentials
 Version: 0.1
-Author: Jeroen Ooms
-Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
+Authors@R: person("Jeroen", "Ooms", role = c("aut", "cre"), 
+    email = "jeroen@berkeley.edu", comment = c(ORCID = "0000-0002-4035-0289"))
 Description: Setup and retrieve HTTPS and SSH credentials for use with 'git' and 
     other services. For HTTPS remotes the package interfaces the 'git-credential' 
     utility which 'git' uses to store HTTP usernames and passwords. For SSH 
