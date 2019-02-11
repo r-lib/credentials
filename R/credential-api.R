@@ -104,7 +104,7 @@ git_with_sys <- function(command, input = NULL, verbose = TRUE){
   trimws(rawToChar(rawConnectionValue(outcon)))
 }
 
-find_git_cmd <- function(git = getOption("git", "git")){
+find_git_cmd <- function(git = getOption("git", "git"), error = TRUE){
   if(cmd_exists(git)){
     return(git)
   }
@@ -117,7 +117,13 @@ find_git_cmd <- function(git = getOption("git", "git")){
       }
     }
   }
-  stop(sprintf("Could not find the '%s' command line util", git), call. = FALSE)
+  if(error){
+    stop(sprintf("Could not find the '%s' command line util", git), call. = FALSE)
+  }
+}
+
+has_git_cmd <- function(){
+  !is.null(find_git_cmd(error = FALSE))
 }
 
 parse_url <- function(url, allow_ssh = TRUE){
