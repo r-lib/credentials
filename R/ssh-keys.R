@@ -82,11 +82,9 @@ ssh_keygen <- function(file = ssh_home('id_rsa')){
 #' @export
 ssh_setup_github <- function(){
   info <- ssh_key_info()
-  cat("Copy the public key below into the Github web page:\n\n", file = stderr())
-  cat(info$pubkey, "\n\n", file = stderr())
-  cat("Opening browser to: https://github.com/settings/ssh/new\n", file = stderr())
-  if(interactive()){
-    Sys.sleep(2)
+  cat("Your public key:\n\n", info$pubkey, "\n\n", file = stderr())
+  cat("Please copy the line above to GitHub: https://github.com/settings/ssh/new\n", file = stderr())
+  if(interactive() && askYesNo('Would you like to open a browser now?')){
     utils::browseURL('https://github.com/settings/ssh/new')
   }
 }
