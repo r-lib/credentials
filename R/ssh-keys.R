@@ -1,4 +1,4 @@
-#' Your SSH key
+#' Managing Your SSH Key
 #'
 #' Utility functions to find or generate your SSH key for use with git remotes
 #' or other ssh servers.
@@ -26,7 +26,7 @@ ssh_key_info <- function(host = NULL, auto_keygen = NA){
   if(is.null(keyfile)){
     if(isTRUE(auto_keygen) || (is.na(auto_keygen) && ask_user("No SSH key found. Generate one now?"))){
       keyfile <- ssh_home('id_rsa')
-      ssh_keygen(keyfile, open_github = FALSE)
+      ssh_keygen(keyfile)
     } else {
       stop(sprintf("Failed to find ssh key file for %s", host))
     }
@@ -46,10 +46,8 @@ ssh_key_info <- function(host = NULL, auto_keygen = NA){
 #' @rdname ssh_credentials
 #' @param file destination path of the private key. For the public key, `.pub`
 #' is appended to the filename.
-#' @param open_github automatically open a browser window to let the user
-#' add the key to Github.
 #' @importFrom openssl write_ssh write_pem read_key write_pkcs1 read_pubkey
-ssh_keygen <- function(file = ssh_home('id_rsa'), open_github = interactive()){
+ssh_keygen <- function(file = ssh_home('id_rsa')){
   private_key <- normalizePath(file, mustWork = FALSE)
   pubkey_path <- paste0(private_key, ".pub")
   if(file.exists(private_key)){
@@ -74,14 +72,23 @@ ssh_keygen <- function(file = ssh_home('id_rsa'), open_github = interactive()){
     writeLines(c('Host *', '  AddKeysToAgent yes', '  UseKeychain yes',
                  paste('  IdentityFile ', private_key)), con = conf_file)
   }
-  if(isTRUE(open_github)){
-    cat("Opening browser to add your key: https://github.com/settings/ssh/new\n", file = stderr())
-    utils::browseURL('https://github.com/settings/ssh/new')
-  }
   list(
     key = private_key,
     pubkey = write_ssh(pubkey)
   )
+}
+
+#' @rdname ssh_credentials
+#' @export
+ssh_setup_github <- function(){
+  info <- ssh_key_info()
+  cat("Copy the public key below into the Github web page:\n\n", file = stderr())
+  cat(info$pubkey, "\n\n", file = stderr())
+  cat("Opening browser to: https://github.com/settings/ssh/new\n", file = stderr())
+  if(interactive()){
+    Sys.sleep(2)
+    utils::browseURL('https://github.com/settings/ssh/new')
+  }
 }
 
 #' @export

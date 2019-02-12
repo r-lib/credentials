@@ -4,14 +4,17 @@
 \alias{ssh_credentials}
 \alias{ssh_key_info}
 \alias{ssh_keygen}
+\alias{ssh_setup_github}
 \alias{ssh_home}
 \alias{ssh_agent_add}
 \alias{ssh_update_passphrase}
-\title{Your SSH key}
+\title{Managing Your SSH Key}
 \usage{
 ssh_key_info(host = NULL, auto_keygen = NA)
 
-ssh_keygen(file = ssh_home("id_rsa"), open_github = interactive())
+ssh_keygen(file = ssh_home("id_rsa"))
+
+ssh_setup_github()
 
 ssh_home(file = NULL)
 
@@ -27,9 +30,6 @@ Default \code{NA} is to prompt the user what to.}
 
 \item{file}{destination path of the private key. For the public key, \code{.pub}
 is appended to the filename.}
-
-\item{open_github}{automatically open a browser window to let the user
-add the key to Github.}
 }
 \description{
 Utility functions to find or generate your SSH key for use with git remotes
