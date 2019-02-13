@@ -64,7 +64,7 @@ Use the openssl package to read the user private key in R for encryption / signa
 
 ```r
 user <- ssh_key_info()
-key <- openssl::read_key(user$key)
+key <- ssh_read_key(user$key)
 openssl::write_pem(key)
 ```
 

@@ -14,6 +14,10 @@
 #' save it in the default location. This will also automatically opens the above Github
 #' page in your browser where you can add the key to your profile.
 #'
+#' `ssh_read_key` reads a private key and caches the result (in memory) for the
+#' duration of the R session. This prevents having to enter the key passphrase many
+#' times. Only use this if `ssh-agent` is not available (i.e. Windows)
+#'
 #' @export
 #' @family credentials
 #' @rdname ssh_credentials
@@ -33,7 +37,7 @@ ssh_key_info <- function(host = NULL, auto_keygen = NA){
   }
   pubfile <- paste0(keyfile, ".pub")
   if(!file.exists(pubfile)){
-    key <- openssl::read_key(keyfile)
+    key <- ssh_read_key(keyfile)
     try(openssl::write_ssh(key$pubkey, pubfile), silent = TRUE)
   }
   list(
@@ -55,7 +59,7 @@ ssh_keygen <- function(file = ssh_home('id_rsa')){
     pubkey <- if(file.exists(pubkey_path)){
       read_pubkey(pubkey_path)
     } else {
-      read_key(private_key)$pubkey
+      ssh_read_key(private_key)$pubkey
     }
   } else {
     cat(sprintf("Generating new RSA keyspair at: %s\n", private_key), file = stderr())
@@ -84,7 +88,7 @@ ssh_setup_github <- function(){
   info <- ssh_key_info()
   cat("Your public key:\n\n", info$pubkey, "\n\n", file = stderr())
   cat("Please copy the line above to GitHub: https://github.com/settings/ssh/new\n", file = stderr())
-  if(interactive() && askYesNo('Would you like to open a browser now?')){
+  if(interactive() && utils::askYesNo('Would you like to open a browser now?')){
     utils::browseURL('https://github.com/settings/ssh/new')
   }
 }
@@ -225,4 +229,25 @@ ssh_update_passphrase <- function(file = ssh_home("id_rsa")){
     stop("Entered passhprases are not identical")
   }
   message("Passphrase has been updated!")
+
+  # Wipe the key cache just in case
+  environment(ssh_read_key)$store = new.env(parent = emptyenv())
 }
+
+#' @export
+#' @rdname ssh_credentials
+#' @param password a passphrase or callback function
+#' @importFrom askpass askpass
+ssh_read_key <- local({
+  store = new.env(parent = emptyenv())
+  function (file = ssh_home("id_rsa"), password = askpass){
+    file <- normalizePath(file, mustWork = TRUE)
+    hash <- openssl::md5(file)
+    if(!length(store[[hash]])){
+      store[[hash]] <- tryCatch(openssl::read_key(file, password = password), error = function(e){
+        stop(sprintf("Unable to load key: %s", file), call. = FALSE)
+      })
+    }
+    return(store[[hash]])
+  }
+})
