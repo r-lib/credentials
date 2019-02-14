@@ -88,7 +88,7 @@ ssh_setup_github <- function(){
   info <- ssh_key_info()
   cat("Your public key:\n\n", info$pubkey, "\n\n", file = stderr())
   cat("Please copy the line above to GitHub: https://github.com/settings/ssh/new\n", file = stderr())
-  if(interactive() && utils::askYesNo('Would you like to open a browser now?')){
+  if(interactive() && ask_user('Would you like to open a browser now?')){
     utils::browseURL('https://github.com/settings/ssh/new')
   }
 }
