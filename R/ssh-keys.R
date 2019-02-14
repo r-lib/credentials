@@ -211,8 +211,7 @@ normalize_home <- function(path = NULL){
 ask_user <- function(str){
   if(!interactive())
     return(FALSE)
-  message(str)
-  return(utils::menu(c("Yes", "No")) == 1)
+  return(utils::menu(c("Yes", "No"), title = str) == 1)
 }
 
 #' @export
