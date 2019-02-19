@@ -20,10 +20,11 @@ Imports:
     curl,
     jsonlite,
     askpass
-Suggests: 
+Suggests:
     testthat,
     knitr,
     rmarkdown
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
+Language: en-US
