@@ -14,7 +14,7 @@ set_github_pat(force_new = FALSE, verbose = TRUE)
 \description{
 Populates the \code{GITHUB_PAT} environment variable using the \link[=http_credentials]{git_credential}
 manager, which \code{git} itself uses for storing passwords. The credential manager
-will automatically and securily prompt the user for credentials when needed.
+will automatically and securely prompt the user for credentials when needed.
 }
 \details{
 Use this function in your \link[=Startup]{.Rprofile} script to automatically set

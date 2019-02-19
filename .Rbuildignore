@@ -3,3 +3,5 @@
 ^LICENSE\.md$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^README.md$
+^LICENSE.md$

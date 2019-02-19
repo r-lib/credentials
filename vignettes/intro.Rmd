@@ -72,7 +72,7 @@ credential_helper_get()
 
 Most `git` installations default to `store` if supported because it is more convenient and secure. However the look and policy of the git credential store for entering and retrieving passwords can vary by system, because it uses the OS native password manager.
 
-### Acessing the HTTPS Credential Store from R
+### Accessing the HTTPS Credential Store from R
 
 The `credentials` R package provides a wrapper around the `git credential` command line API for reading and saving credentials. The `git_credential_ask()` function looks up suitable credentials for a given URL from the store. If no credentials are available, it will attempt to prompt the user for credentials and return those instead.
 
@@ -94,7 +94,7 @@ The function `git_credential_update()` looks similar but it behaves slightly dif
 git_credential_update('https://example.com')
 ```
 
-In a terminal window this will result in an interactive password prompt. In Windows the user might see something like this (depending on the version of Windows and git configutation):
+In a terminal window this will result in an interactive password prompt. In Windows the user might see something like this (depending on the version of Windows and git configuration):
 
 <img style="width:690px; padding:0;" src="wincred.png">
 

@@ -17,7 +17,7 @@
 #' interaction. The user may be asked to unlock the system keychain or
 #' enter new credentials. In reality, user interaction is usually only
 #' required on the first authentication attempt, but the security policy
-#' of most credential helpers prevent you from programatically testing
+#' of most credential helpers prevent you from programmatically testing
 #' if the credentials are already unlocked.
 #'
 #' @export

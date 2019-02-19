@@ -16,7 +16,7 @@
 #'
 #' Because git credential interacts with the system password manager, the appearance
 #' of the prompts vary by OS and R frontend.  Note that [credential_fill] should
-#' only be used interactivly, because it may require the user to enter credentials
+#' only be used interactively, because it may require the user to enter credentials
 #' or unlock the system keychain. On the other hand [credential_approve] and
 #' [credential_reject] are non-interactive and could be used to save or delete
 #' credentials in a scripted program. However note that some credential helpers
