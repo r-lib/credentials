@@ -21,12 +21,7 @@ library <- function(package){
                         cat(e$message)
                         invokeRestart("muffleMessage")
                       })
-}
-
-# If no key exists, generate one
-invisible(tryCatch(credentials::ssh_key_info(), error = function(e){
-  credentials::ssh_keygen()
-}))
+}  
 ```
 
 
@@ -124,12 +119,22 @@ The manual page for `credential_approve` and `credential_reject` has more detail
 
 ## Part 2: Managing SSH Keys
 
+```{r echo = FALSE}
+ssh_key_info <- function(){
+  try({
+    out <- credentials:::ssh_key_info(auto_keygen = FALSE)
+    out$pubkey = paste(substring(out$pubkey, 1, 80), "...")
+    out
+  })
+}
+```
+
 For SSH remotes, git does not handle authentication itself. Git simply shells out to `ssh` on your system and uses your standard user ssh configuration. Hence authenticating with SSH git remotes comes down to setting up your ssh keys and copying these to your profile.
 
 The `credentials` package provides a few utility functions to make this easier. The `ssh_key_info()` function calls out to looks up which key that `ssh` uses to connect to a given server. This is usually `~/.ssh/id_rsa` unless you have a fancy custom ssh configuration.
 
 ```{r}
-str(ssh_key_info())
+ssh_key_info()
 ```
 
 The output shows both the path to your (private) key as well as the ssh pubkey string. The latter is what you have to enter in your [GitHub profile](https://github.com/settings/ssh/new) to associate this key with your user account. You will then be automatically authenticated when using GitHub SSH remotes.
