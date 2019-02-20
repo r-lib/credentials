@@ -23,7 +23,8 @@
       credential_helper_get()
     }, error = function(...){
       helper <- credential_helper_list()[1]
-      credential_helper_set(helper, global = TRUE)
+      if(!is_check())
+        credential_helper_set(helper, global = TRUE)
     }))
   }
 }
@@ -63,4 +64,8 @@
   #if(length(agent_output) && nchar(agent_output)){
   #  packageStartupMessage(trimws(agent_output))
   #}
+}
+
+is_check <- function(){
+  grepl('credentials.Rcheck', getwd(), fixed = TRUE)
 }
