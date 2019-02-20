@@ -18,15 +18,8 @@
   }
 
   # If no credential helper has been set, use the 'cache' helper
-  if(has_git_cmd()){
-    invisible(tryCatch({
-      credential_helper_get()
-    }, error = function(...){
-      helper <- credential_helper_list()[1]
-      if(!is_check())
-        credential_helper_set(helper, global = TRUE)
-    }))
-  }
+  if(!is_check())
+    set_default_cred_helper()
 }
 
 .onAttach <- function(libname, pkgname){
@@ -64,6 +57,17 @@
   #if(length(agent_output) && nchar(agent_output)){
   #  packageStartupMessage(trimws(agent_output))
   #}
+}
+
+set_default_cred_helper <- function(){
+  if(has_git_cmd()){
+    invisible(tryCatch({
+      credential_helper_get()
+    }, error = function(...){
+      helper <- credential_helper_list()[1]
+      credential_helper_set(helper, global = TRUE)
+    }))
+  }
 }
 
 is_check <- function(){
