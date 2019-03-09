@@ -65,7 +65,7 @@ To save you from entering your password over and over, git includes a [credentia
  
 To see which helper is configured for a given repo, run:
 
-```{r}
+```{r, eval=has_git}
 credential_helper_get()
 ```
 
