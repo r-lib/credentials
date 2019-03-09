@@ -39,7 +39,7 @@ Git supports two types of remotes: SSH and HTTP. These two use completely distin
 | __authentication__    | Personal SSH key          | Password or PAT         |
 | __stored in__ | file `id_rsa` or `ssh-agent` | `git credential` store |
 
-For HTTPS remotes, git authenticates with a username + password. Instead of a password you can also use a [Personal Access Token](https://github.com/settings/tokens) (PAT). PATs are preferred because have limited permissions and do not require 2FA.
+For HTTPS remotes, git authenticates with a username + password. With GitHub, instead of a password, you can also use a [Personal Access Token](https://github.com/settings/tokens) (PAT). PATs are preferred because they provide more granular control of permissions (via the PAT's scopes), you can have many of them for different purposes, you can give them informative names, and they can be selectively revoked. Note that, if you use 2FA with GitHub, you must authenticate with a PAT if you use the HTTPS protocol.
 
 For SSH remotes, git shells out to `ssh` on your system, and lets `ssh` take care of authentication. This means you have to setup an ssh key (usually `~/.ssh/id_rsa`) which you then [add to your git profile](https://github.com/settings/ssh/new).
 
