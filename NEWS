@@ -1,0 +1,6 @@
+1.1
+  - Fix for vignette when no 'git' is installed
+  - Fix for vignette when credential helper requires user interaction (CRAN MAC)
+
+1.0
+  - Initial CRAN release
