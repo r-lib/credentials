@@ -28,3 +28,5 @@ RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 Language: en-US
+URL: https://github.com/r-lib/credentials
+BugReports: https://github.com/r-lib/credentials/issues
