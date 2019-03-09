@@ -49,12 +49,12 @@ update the credential store without user interaction.
 \examples{
 \donttest{
 # Insert example cred
-example <- list(protocol = "https", host = "example.com",
+example <- list(protocol = "https", host = "example.org",
   username = "test", password = "secret")
 credential_approve(example)
 
 # Retrieve it from the store
-cred <- credential_fill(list(protocol = "https", host = "example.com", path = "/foo"))
+cred <- credential_fill(list(protocol = "https", host = "example.org", path = "/foo"))
 print(cred)
 
 # Delete it
