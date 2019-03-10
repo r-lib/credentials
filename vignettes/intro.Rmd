@@ -39,7 +39,7 @@ Git supports two types of remotes: SSH and HTTP. These two use completely distin
 | __authentication__    | Personal SSH key          | Password or PAT         |
 | __stored in__ | file `id_rsa` or `ssh-agent` | `git credential` store |
 
-For HTTPS remotes, git authenticates with a username + password. Instead of a password you can also use a [Personal Access Token](https://github.com/settings/tokens) (PAT). PATs are preferred because have limited permissions and do not require 2FA.
+For HTTPS remotes, git authenticates with a username + password. With GitHub, instead of a password, you can also use a [Personal Access Token](https://github.com/settings/tokens) (PAT). PATs are preferred because they provide more granular control of permissions (via the PAT's scopes), you can have many of them for different purposes, you can give them informative names, and they can be selectively revoked. Note that, if you use 2FA with GitHub, you must authenticate with a PAT if you use the HTTPS protocol.
 
 For SSH remotes, git shells out to `ssh` on your system, and lets `ssh` take care of authentication. This means you have to setup an ssh key (usually `~/.ssh/id_rsa`) which you then [add to your git profile](https://github.com/settings/ssh/new).
 
@@ -88,7 +88,7 @@ library(credentials)
 git_credential_ask('https://example.com')
 ```
 
-The function `git_credential_update()` looks similar but it behaves slightly different: it first removes existing credentials from the store (if any), then prompt the user for a new username/password, and save these to the store.
+The function `git_credential_update()` looks similar but it behaves slightly different: it first removes existing credentials from the store (if any), then prompts the user for a new username/password, and saves these to the store.
 
 ```r
 # This should always prompt for new credentials
@@ -111,11 +111,11 @@ Automatically populate your `GITHUB_PAT` environment variable from the native gi
 credentials::set_github_pat()
 ```
 
-Use this function in your `.Rprofile` if you want to automatically set `GITHUB_PAT` for each R session, without hardcoding your any secrets in plain text.
+Use this function in your `.Rprofile` if you want to automatically set `GITHUB_PAT` for each R session, without hardcoding your secrets in plain text, such as in your `.Renviron` file.
 
 ### Non-interactive use
 
-Retrieving credentials is by definition interactive, because it the user may be required to enter a password or unlock the system keychain. However, saving or deleting credentials can be sometimes done non-interactively, but this depends on which credential helper is used.
+Retrieving credentials is by definition interactive, because the user may be required to enter a password or unlock the system keychain. However, saving or deleting credentials can sometimes be done non-interactively, but this depends on which credential helper is used.
 
 The manual page for `credential_approve` and `credential_reject` has more details about how to call the basic git credential api. 
 
@@ -134,7 +134,7 @@ ssh_key_info <- function(){
 
 For SSH remotes, git does not handle authentication itself. Git simply shells out to `ssh` on your system and uses your standard user ssh configuration. Hence authenticating with SSH git remotes comes down to setting up your ssh keys and copying these to your profile.
 
-The `credentials` package provides a few utility functions to make this easier. The `ssh_key_info()` function calls out to looks up which key that `ssh` uses to connect to a given server. This is usually `~/.ssh/id_rsa` unless you have a fancy custom ssh configuration.
+The `credentials` package provides a few utility functions to make this easier. The `ssh_key_info()` function calls out to look up which key `ssh` uses to connect to a given server. This is usually `~/.ssh/id_rsa` unless you have a fancy custom ssh configuration.
 
 ```{r}
 ssh_key_info()
