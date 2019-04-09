@@ -15,7 +15,7 @@ License: MIT + file LICENSE
 SystemRequirements: git (optional)
 Encoding: UTF-8
 Imports:
-    openssl (>= 1.2),
+    openssl (>= 1.3),
     sys (>= 2.1),
     curl,
     jsonlite,
