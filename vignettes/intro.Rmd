@@ -30,7 +30,7 @@ library <- function(package){
 library(credentials)
 ```
 
-Git supports two types of remotes: SSH and HTTP. These two use completely distinct authentication systems. 
+Git supports two types of remotes: SSH and HTTPS. These two use completely distinct authentication systems. 
 
 
 |         | SSH REMOTES      | HTTPS REMOTES          |
