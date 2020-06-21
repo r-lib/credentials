@@ -10,7 +10,7 @@
 #' @export
 #' @param force_new forget existing pat, always ask for new one
 #' @param validate checks with the github API that this token works
-#' @param verbose print some debugging messages
+#' @param verbose prints a message showing the credential helper and PAT owner
 set_github_pat <- function(force_new = FALSE, validate = TRUE, verbose = TRUE){
   if(isTRUE(force_new))
     git_credential_forget('https://token@github.com')

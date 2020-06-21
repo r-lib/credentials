@@ -11,7 +11,7 @@ set_github_pat(force_new = FALSE, validate = TRUE, verbose = TRUE)
 
 \item{validate}{checks with the github API that this token works}
 
-\item{verbose}{print some debugging messages}
+\item{verbose}{prints a message showing the credential helper and PAT owner}
 }
 \description{
 Populates the \code{GITHUB_PAT} environment variable using the \link[=http_credentials]{git_credential}
