@@ -27,7 +27,8 @@ set_github_pat <- function(force_new = FALSE, validate = interactive(), verbose 
     on.exit(Sys.unsetenv('GIT_ASKTOKEN'), add = TRUE)
   }
   for(i in 1:3){
-    cred <- git_credential_ask('https://token@github.com', verbose = verbose)
+    pat_user <- Sys.getenv("GITHUB_PAT_USER", 'token')
+    cred <- git_credential_ask(sprintf('https://%s@github.com', pat_user), verbose = verbose)
     if(length(cred$password)){
       if(nchar(cred$password) < 40){
         message("Please enter a token in the password field, not your master password! Let's try again :-)")
