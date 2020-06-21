@@ -27,6 +27,7 @@ set_github_pat <- function(force_new = FALSE, validate = interactive(), verbose 
     on.exit(Sys.unsetenv('GIT_ASKTOKEN'), add = TRUE)
   }
   for(i in 1:3){
+    # The username doesn't have to be real, Github seems to ignore username for PATs
     pat_user <- Sys.getenv("GITHUB_PAT_USER", 'token')
     cred <- git_credential_ask(sprintf('https://%s@github.com', pat_user), verbose = verbose)
     if(length(cred$password)){
