@@ -57,6 +57,7 @@ duration of the R session. This prevents having to enter the key passphrase many
 times. Only use this if \code{ssh-agent} is not available (i.e. Windows)
 }
 \seealso{
-Other credentials: \code{\link{http_credentials}}
+Other credentials: 
+\code{\link{http_credentials}}
 }
 \concept{credentials}

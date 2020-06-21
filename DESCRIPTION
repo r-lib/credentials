@@ -24,7 +24,7 @@ Suggests:
     testthat,
     knitr,
     rmarkdown
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0.9000
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 Language: en-US

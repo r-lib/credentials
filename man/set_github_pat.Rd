@@ -4,10 +4,12 @@
 \alias{set_github_pat}
 \title{Set your Github Personal Access Token}
 \usage{
-set_github_pat(force_new = FALSE, verbose = TRUE)
+set_github_pat(force_new = FALSE, validate = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{force_new}{forget existing pat, always ask for new one}
+
+\item{validate}{checks with the github API that this token works}
 
 \item{verbose}{print some debugging messages}
 }

@@ -8,8 +8,7 @@
 \alias{git_credential_forget}
 \title{Load and store git HTTPS credentials}
 \usage{
-git_credential_ask(url = "https://github.com", save = TRUE,
-  verbose = TRUE)
+git_credential_ask(url = "https://github.com", save = TRUE, verbose = TRUE)
 
 git_credential_update(url = "https://github.com", verbose = TRUE)
 
@@ -21,12 +20,12 @@ git_credential_forget(url = "https://github.com", verbose = TRUE)
 \item{save}{in case the user is prompted for credentials, attempt to
 remember them.}
 
-\item{verbose}{print errors from \code{git credential} to stdout}
+\item{verbose}{print errors from \verb{git credential} to stdout}
 }
 \description{
 This requires you have the \code{git} command line program installed.The
 \link{git_credential_ask} function looks up a suitable username/password
-from the \href{https://git-scm.com/docs/gitcredentials}{git-credential store}.
+from the \href{https://git-scm.com/docs/gitcredentials}{\code{git-credential} store}.
 If none are available it will prompt the user for credentials which
 may be saved the store. On subsequent calls for the same URL, the
 function will then return the stored credentials without prompting
@@ -46,6 +45,7 @@ of most credential helpers prevent you from programmatically testing
 if the credentials are already unlocked.
 }
 \seealso{
-Other credentials: \code{\link{ssh_credentials}}
+Other credentials: 
+\code{\link{ssh_credentials}}
 }
 \concept{credentials}

@@ -9,8 +9,9 @@
 #'
 #' @export
 #' @param force_new forget existing pat, always ask for new one
+#' @param validate checks with the github API that this token works
 #' @param verbose print some debugging messages
-set_github_pat <- function(force_new = FALSE, verbose = TRUE){
+set_github_pat <- function(force_new = FALSE, validate = TRUE, verbose = TRUE){
   if(isTRUE(force_new))
     git_credential_forget('https://token@github.com')
   if(isTRUE(verbose))
@@ -30,23 +31,23 @@ set_github_pat <- function(force_new = FALSE, verbose = TRUE){
         message("Please enter a token in the password field, not your master password! Let's try again :-)")
         message("To generate a new token, visit: https://github.com/settings/tokens")
         credential_reject(cred)
-      } else {
+        next
+      }
+      if(isTRUE(validate)) {
         hx <- curl::handle_setheaders(curl::new_handle(), Authorization = paste("token", cred$password))
         req <- curl::curl_fetch_memory("https://api.github.com/user", handle = hx)
         if(req$status_code >= 400){
           message("Authentication failed. Token invalid.")
           credential_reject(cred)
-        } else {
+          next
+        }
+        if(verbose == TRUE){
           data <- jsonlite::fromJSON(rawToChar(req$content))
-          if(verbose == TRUE){
-            Sys.setenv(GITHUB_PAT = cred$password)
-            helper <- tryCatch(credential_helper_get()[1], error = "??")
-            message(sprintf("Using GITHUB_PAT from %s (credential helper: %s)", data$name, helper))
-          }
-          return(invisible())
-
+          helper <- tryCatch(credential_helper_get()[1], error = function(e){"??"})
+          message(sprintf("Using GITHUB_PAT from %s (credential helper: %s)", data$name, helper))
         }
       }
+      return(Sys.setenv(GITHUB_PAT = cred$password))
     }
   }
 }
