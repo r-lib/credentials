@@ -42,8 +42,9 @@ set_github_pat <- function(force_new = FALSE, verbose = TRUE){
             Sys.setenv(GITHUB_PAT = cred$password)
             helper <- tryCatch(credential_helper_get()[1], error = "??")
             message(sprintf("Using GITHUB_PAT from %s (credential helper: %s)", data$name, helper))
-            return(invisible())
           }
+          return(invisible())
+
         }
       }
     }
