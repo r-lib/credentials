@@ -33,7 +33,7 @@ set_github_pat <- function(force_new = FALSE, verbose = TRUE){
       } else {
         hx <- curl::handle_setheaders(curl::new_handle(), Authorization = paste("token", cred$password))
         req <- curl::curl_fetch_memory("https://api.github.com/user", handle = hx)
-        if(req$status >= 400){
+        if(req$status_code >= 400){
           message("Authentication failed. Token invalid.")
           credential_reject(cred)
         } else {
