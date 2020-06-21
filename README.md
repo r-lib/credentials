@@ -30,7 +30,7 @@ Automatically populate your `GITHUB_PAT` environment variable from the native gi
 credentials::set_github_pat()
 ```
 
-Use this function in your `.Rprofile` if you want to automatically set `GITHUB_PAT` for each R session, without hardcoding your any secrets in plain text.
+Use this function in your `.Rprofile` if you want to automatically set `GITHUB_PAT` for each R session, without hardcoding your secret in plain text.
 
 ### Manage HTTPS credentials
 
