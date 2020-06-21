@@ -4,14 +4,18 @@
 \alias{set_github_pat}
 \title{Set your Github Personal Access Token}
 \usage{
-set_github_pat(force_new = FALSE, validate = TRUE, verbose = TRUE)
+set_github_pat(force_new = FALSE, validate = interactive(), verbose = validate)
 }
 \arguments{
-\item{force_new}{forget existing pat, always ask for new one}
+\item{force_new}{forget existing pat, always ask for new one.}
 
-\item{validate}{checks with the github API that this token works}
+\item{validate}{checks with the github API that this token works. Defaults to
+\code{TRUE} only in an interactive R session (not when running e.g. CMD check).}
 
-\item{verbose}{prints a message showing the credential helper and PAT owner}
+\item{verbose}{prints a message showing the credential helper and PAT owner.}
+}
+\value{
+returns TRUE if a valid GITHUB_PAT was set, and FALSE in case of failure.
 }
 \description{
 Populates the \code{GITHUB_PAT} environment variable using the \link[=http_credentials]{git_credential}

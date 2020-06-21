@@ -8,10 +8,12 @@
 #' `GITHUB_PAT` for each R session without hardcoding your any secrets in plain text.
 #'
 #' @export
-#' @param force_new forget existing pat, always ask for new one
-#' @param validate checks with the github API that this token works
-#' @param verbose prints a message showing the credential helper and PAT owner
-set_github_pat <- function(force_new = FALSE, validate = TRUE, verbose = TRUE){
+#' @param force_new forget existing pat, always ask for new one.
+#' @param validate checks with the github API that this token works. Defaults to
+#' `TRUE` only in an interactive R session (not when running e.g. CMD check).
+#' @param verbose prints a message showing the credential helper and PAT owner.
+#' @return returns TRUE if a valid GITHUB_PAT was set, and FALSE in case of failure.
+set_github_pat <- function(force_new = FALSE, validate = interactive(), verbose = validate){
   if(isTRUE(force_new))
     git_credential_forget('https://token@github.com')
   if(isTRUE(verbose))
@@ -50,4 +52,8 @@ set_github_pat <- function(force_new = FALSE, validate = TRUE, verbose = TRUE){
       return(Sys.setenv(GITHUB_PAT = cred$password))
     }
   }
+  if(verbose == TRUE){
+    message("Failed to find a valid GITHUB_PAT after 3 attempts")
+  }
+  return(FALSE)
 }
