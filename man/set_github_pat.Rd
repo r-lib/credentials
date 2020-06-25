@@ -20,9 +20,12 @@ returns TRUE if a valid GITHUB_PAT was set, and FALSE in case of failure.
 \description{
 Populates the \code{GITHUB_PAT} environment variable using the \link[=http_credentials]{git_credential}
 manager, which \code{git} itself uses for storing passwords. The credential manager
-will automatically and securely prompt the user for credentials when needed.
+returns stored credentials if available, and securely prompt the user for
+credentials when needed.
 }
 \details{
-Use this function in your \link[=Startup]{.Rprofile} script to automatically set
-\code{GITHUB_PAT} for each R session without hardcoding your any secrets in plain text.
+Packages that require a \code{GITHUB_PAT} can call this function to automatically
+set the \code{GITHUB_PAT} when needed. Users may call this function in their
+\link[=Startup]{.Rprofile} script to automatically set \code{GITHUB_PAT} for each R
+session without hardcoding any tokens on disk in plain-text.
 }

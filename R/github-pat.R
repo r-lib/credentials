@@ -2,10 +2,13 @@
 #'
 #' Populates the `GITHUB_PAT` environment variable using the [git_credential][http_credentials]
 #' manager, which `git` itself uses for storing passwords. The credential manager
-#' will automatically and securely prompt the user for credentials when needed.
+#' returns stored credentials if available, and securely prompt the user for
+#' credentials when needed.
 #'
-#' Use this function in your [.Rprofile][Startup] script to automatically set
-#' `GITHUB_PAT` for each R session without hardcoding your any secrets in plain text.
+#' Packages that require a `GITHUB_PAT` can call this function to automatically
+#' set the `GITHUB_PAT` when needed. Users may call this function in their
+#' [.Rprofile][Startup] script to automatically set `GITHUB_PAT` for each R
+#' session without hardcoding any tokens on disk in plain-text.
 #'
 #' @export
 #' @param force_new forget existing pat, always ask for new one.
