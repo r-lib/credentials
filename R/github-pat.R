@@ -15,7 +15,7 @@
 #' @param validate checks with the github API that this token works. Defaults to
 #' `TRUE` only in an interactive R session (not when running e.g. CMD check).
 #' @param verbose prints a message showing the credential helper and PAT owner.
-#' @return returns TRUE if a valid GITHUB_PAT was set, and FALSE in case of failure.
+#' @return Returns `TRUE` if a valid GITHUB_PAT was set, and FALSE if not.
 set_github_pat <- function(force_new = FALSE, validate = interactive(), verbose = validate){
   if(isTRUE(force_new))
     git_credential_forget('https://token@github.com')

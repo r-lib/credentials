@@ -15,7 +15,7 @@ set_github_pat(force_new = FALSE, validate = interactive(), verbose = validate)
 \item{verbose}{prints a message showing the credential helper and PAT owner.}
 }
 \value{
-returns TRUE if a valid GITHUB_PAT was set, and FALSE in case of failure.
+Returns \code{TRUE} if a valid GITHUB_PAT was set, and FALSE if not.
 }
 \description{
 Populates the \code{GITHUB_PAT} environment variable using the \link[=http_credentials]{git_credential}
