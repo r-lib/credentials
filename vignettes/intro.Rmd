@@ -109,6 +109,7 @@ Automatically populate your `GITHUB_PAT` environment variable from the native gi
 
 ```r
 credentials::set_github_pat()
+## Using GITHUB_PAT from Jeroen Ooms (credential helper: osxkeychain)
 ```
 
 Use this function in your `.Rprofile` if you want to automatically set `GITHUB_PAT` for each R session, without hardcoding your secrets in plain text, such as in your `.Renviron` file.
