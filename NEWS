@@ -1,5 +1,6 @@
 1.2.1
   - Quote path to $GIT_ASKTOKEN, for example when credentials is installed in "Program Files"
+  - Fix for set_github_pat() token prompt in R.app on MacOS
 
 1.2.0
   - Bug fixes and tweaks for set_github_pat(): gains parameters to disable validation
