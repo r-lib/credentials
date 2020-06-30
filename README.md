@@ -1,6 +1,6 @@
 # credentials <img src="https://jeroen.github.io/images/ropensci-tidyverse.png" align="right" alt="logo" width="120" height = "139" style = "border: none; float: right;">
 
-*This package is a joint effort between [rOpenSci](https://ropensci.org/) and the [Tidyverse](https://www.tidyverse.org/) team.*
+*This package is a joint effort from [rOpenSci](https://ropensci.org/) and the [Tidyverse](https://www.tidyverse.org/) team.*
 
 > Tools for Managing SSH and Git Credentials
 
