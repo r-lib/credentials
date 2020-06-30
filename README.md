@@ -1,8 +1,8 @@
 # credentials <img src="https://jeroen.github.io/images/ropensci-tidyverse.png" align="right" alt="logo" width="120" height = "139" style = "border: none; float: right;">
 
-> Tools for Managing SSH and Git Credentials
+*This package is a joint effort between [rOpenSci](https://ropensci.org/) and the [Tidyverse](https://www.tidyverse.org/) team.*
 
-This package is a collaboration between [rOpenSci](https://ropensci.org/) and the [Tidyverse](https://www.tidyverse.org/) team.
+> Tools for Managing SSH and Git Credentials
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![Build Status](https://travis-ci.org/r-lib/credentials.svg?branch=master)](https://travis-ci.org/r-lib/credentials)
