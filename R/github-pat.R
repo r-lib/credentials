@@ -62,3 +62,8 @@ set_github_pat <- function(force_new = FALSE, validate = interactive(), verbose 
   }
   return(FALSE)
 }
+
+message <- function(...){
+  base:::message(...)
+  utils::flush.console()
+}
