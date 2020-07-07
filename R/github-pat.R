@@ -26,7 +26,9 @@ set_github_pat <- function(force_new = FALSE, validate = interactive(), verbose 
     # Hack to override prompt sentence to say "Token" instead of "Password"
     Sys.setenv(GIT_ASKTOKEN = askpass)
     Sys.setenv(GIT_ASKPASS = system.file('ask_token.sh', package = 'credentials', mustWork = TRUE))
+    Sys.setenv(GIT_ASKTOKEN_NAME = 'Personal Access Token (PAT)')
     on.exit(Sys.setenv(GIT_ASKPASS = askpass), add = TRUE)
+    on.exit(Sys.unsetenv('GIT_ASKTOKEN_NAME'), add = TRUE)
     on.exit(Sys.unsetenv('GIT_ASKTOKEN'), add = TRUE)
   }
   for(i in 1:3){
