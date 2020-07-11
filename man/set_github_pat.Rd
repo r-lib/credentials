@@ -4,28 +4,52 @@
 \alias{set_github_pat}
 \title{Set your Github Personal Access Token}
 \usage{
-set_github_pat(force_new = FALSE, validate = interactive(), verbose = validate)
+set_github_pat(
+  url = "https://github.com",
+  force_new = FALSE,
+  validate = interactive(),
+  verbose = validate
+)
 }
 \arguments{
-\item{force_new}{forget existing pat, always ask for new one.}
+\item{url}{A URL that conveys login information, such as protocol (e.g.
+"https"), remote hostname (e.g. "github.com" or
+"github.starkindustries.com"), and username (e.g. "tony"). See the
+input/output documentation for the \href{https://git-scm.com/docs/git-credential#IOFMT}{\code{git-credential} command} for acceptable
+formats.}
 
-\item{validate}{checks with the github API that this token works. Defaults to
-\code{TRUE} only in an interactive R session (not when running e.g. CMD check).}
+\item{force_new}{Clear any existing, matching PAT from the store and
+re-prompt the user.}
 
-\item{verbose}{prints a message showing the credential helper and PAT owner.}
+\item{validate}{Whether to query the \verb{/user} endpoint of the GitHub API to
+confirm that the token works. Defaults to \code{TRUE} only in an interactive R
+session (not when running e.g. CMD check). This API call respects a host
+that is not "github.com", i.e. it works for GitHub Enterprise.}
+
+\item{verbose}{Whether to print a message revealing, e.g., the host, the PAT
+owner's username, and the associated credential helper.}
 }
 \value{
-Returns \code{TRUE} if a valid GITHUB_PAT was set, and FALSE if not.
+Returns \code{TRUE} if \code{GITHUB_PAT} was set, and FALSE otherwise.
 }
 \description{
-Populates the \code{GITHUB_PAT} environment variable using the \link[=http_credentials]{git_credential}
-manager, which \code{git} itself uses for storing passwords. The credential manager
-returns stored credentials if available, and securely prompt the user for
-credentials when needed.
+Populates the \code{GITHUB_PAT} environment variable using a token stored with the
+\link[=http_credentials]{git_credential} manager, which \code{git} itself uses for
+storing passwords. The credential manager returns stored credentials if
+available, and securely prompts the user for credentials when needed.
 }
 \details{
 Packages that require a \code{GITHUB_PAT} can call this function to automatically
 set the \code{GITHUB_PAT} when needed. Users may call this function in their
 \link[=Startup]{.Rprofile} script to automatically set \code{GITHUB_PAT} for each R
 session without hardcoding any tokens on disk in plain-text.
+}
+\examples{
+\dontrun{
+set_github_pat()
+
+set_github_pat("https://github.starkindustries.com")
+
+set_github_pat("https://tony@github.starkindustries.com")
+}
 }

@@ -1,3 +1,9 @@
+1.2.1.2
+  - set_github_pat() gains a `url` argument, which adds support for GitHub Enterprise.
+  - set_github_pat() now stores the PAT with actual username, instead of the "token" placeholder.
+
+1.2.1.1
+
 1.2.1
   - Quote path to $GIT_ASKTOKEN, for example when credentials is installed in "Program Files"
   - Fix for set_github_pat() token prompt in R.app on MacOS
