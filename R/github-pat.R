@@ -37,7 +37,7 @@
 #'
 #' set_github_pat("https://tony@github.starkindustries.com")
 #' }
-set_github_pat <- function(url = "https://github.com",
+set_github_pat <- function(url = "https://token@github.com",
                            force_new = FALSE,
                            validate = interactive(),
                            verbose = validate){
