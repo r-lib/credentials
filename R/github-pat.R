@@ -17,8 +17,10 @@
 #' @param verbose prints a message showing the credential helper and PAT owner.
 #' @return Returns `TRUE` if a valid GITHUB_PAT was set, and FALSE if not.
 set_github_pat <- function(force_new = FALSE, validate = interactive(), verbose = validate){
+  pat_user <- Sys.getenv("GITHUB_PAT_USER", 'PersonalAccessToken')
+  pat_url <- sprintf('https://%s@github.com', pat_user)
   if(isTRUE(force_new))
-    git_credential_forget('https://token@github.com')
+    git_credential_forget(pat_url)
   if(isTRUE(verbose))
     message("If prompted for GitHub credentials, enter your PAT in the password field")
   askpass <- Sys.getenv('GIT_ASKPASS')
@@ -33,8 +35,7 @@ set_github_pat <- function(force_new = FALSE, validate = interactive(), verbose 
   }
   for(i in 1:3){
     # The username doesn't have to be real, Github seems to ignore username for PATs
-    pat_user <- Sys.getenv("GITHUB_PAT_USER", 'token')
-    cred <- git_credential_ask(sprintf('https://%s@github.com', pat_user), verbose = verbose)
+    cred <- git_credential_ask(pat_url, verbose = verbose)
     if(length(cred$password)){
       if(nchar(cred$password) < 40){
         message("Please enter a token in the password field, not your master password! Let's try again :-)")
