@@ -5,7 +5,6 @@
 > Tools for Managing SSH and Git Credentials
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
-[![Build Status](https://travis-ci.org/r-lib/credentials.svg?branch=master)](https://travis-ci.org/r-lib/credentials)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/r-lib/credentials?branch=master&svg=true)](https://ci.appveyor.com/project/jeroen/credentials)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/credentials)](http://cran.r-project.org/package=credentials)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/credentials)](http://cran.r-project.org/web/packages/credentials/index.html)
