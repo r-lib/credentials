@@ -68,6 +68,7 @@ ssh_keygen <- function(file = ssh_home('id_rsa')){
     dir.create(dirname(private_key), showWarnings = FALSE)
     write_pkcs1(key, private_key)
     write_ssh(pubkey, pubkey_path)
+    Sys.chmod(private_key, "0600")
   }
 
   # See https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
