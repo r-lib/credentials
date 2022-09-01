@@ -94,6 +94,20 @@ ssh_setup_github <- function(){
   }
 }
 
+#' @rdname ssh_credentials
+#' @param instance the base URL of the gitlab instance (default to gitlab.com)
+#' @export
+ssh_setup_gitlab <- function(instance = "https://gitlab.com"){
+  info <- ssh_key_info()
+  gitlab_keys_url <- paste0(instance, "/-/profile/keys")
+  cat("Your public key:\n\n", info$pubkey, "\n\n", file = stderr())
+  cat("Please copy the line above to GitLab: ",
+      gitlab_keys_url, " \n", file = stderr())
+  if(interactive() && ask_user('Would you like to open a browser now?')){
+    utils::browseURL(gitlab_keys_url)
+  }
+}
+
 #' @export
 #' @rdname ssh_credentials
 ssh_home <- function(file = NULL){
