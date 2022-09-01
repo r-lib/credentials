@@ -5,6 +5,7 @@
 \alias{ssh_key_info}
 \alias{ssh_keygen}
 \alias{ssh_setup_github}
+\alias{ssh_setup_gitlab}
 \alias{ssh_home}
 \alias{ssh_agent_add}
 \alias{ssh_update_passphrase}
@@ -16,6 +17,8 @@ ssh_key_info(host = NULL, auto_keygen = NA)
 ssh_keygen(file = ssh_home("id_rsa"))
 
 ssh_setup_github()
+
+ssh_setup_gitlab(instance = "https://gitlab.com")
 
 ssh_home(file = NULL)
 
@@ -33,6 +36,8 @@ Default \code{NA} is to prompt the user what to.}
 
 \item{file}{destination path of the private key. For the public key, \code{.pub}
 is appended to the filename.}
+
+\item{instance}{the base URL of the gitlab instance (default to gitlab.com)}
 
 \item{password}{a passphrase or callback function}
 }

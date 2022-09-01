@@ -1,3 +1,6 @@
+1.3.3
+  - Added support for gitlab through the `set_gitlab_pat()` and `ssh_setup_gitlab()` functions
+
 1.3.2
   - Disable example in vignette that would prompt for user input on Windows
 

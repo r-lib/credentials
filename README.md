@@ -28,6 +28,12 @@ credentials::set_github_pat()
 
 Use this function in your `.Rprofile` if you want to automatically set `GITHUB_PAT` for each R session, without hardcoding your secret in plain text.
 
+for GitLab you can use the `set_gitlab_pat()` function to set the `GITLAB_PAT` environment variable. This function has an extra parameter `instance` where you can set your gitlab instance, it is gitlab.com by default.
+
+```
+credentials::set_gitlab_pat(instance = "my.gitlab.me")
+```
+
 ### Manage HTTPS credentials
 
 Load or prompt the user for GitHub username and password:
