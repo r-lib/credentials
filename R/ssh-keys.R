@@ -51,7 +51,7 @@ ssh_key_info <- function(host = NULL, auto_keygen = NA){
 #' @param file destination path of the private key. For the public key, `.pub`
 #' is appended to the filename.
 #' @importFrom openssl write_ssh write_pem read_key write_pkcs1 read_pubkey
-ssh_keygen <- function(file = ssh_home('id_rsa')){
+ssh_keygen <- function(file = ssh_home('id_ecdsa')){
   private_key <- normalizePath(file, mustWork = FALSE)
   pubkey_path <- paste0(private_key, ".pub")
   if(file.exists(private_key)){
@@ -63,7 +63,7 @@ ssh_keygen <- function(file = ssh_home('id_rsa')){
     }
   } else {
     cat(sprintf("Generating new RSA keyspair at: %s\n", private_key), file = stderr())
-    key <- openssl::rsa_keygen()
+    key <- openssl::ec_keygen("P-521")
     pubkey <- key$pubkey
     dir.create(dirname(private_key), showWarnings = FALSE)
     write_pkcs1(key, private_key)
