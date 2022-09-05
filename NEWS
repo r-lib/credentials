@@ -1,5 +1,8 @@
-1.4.0
-  - ssh_key_info() now ECDSA key instead of RSA key by default if both exist.
+2.0.0
+  - ssh_key_info() now returns ECDSA instead of RSA key by default if both exist.
+    If you get authentication problems with 'gert' you probably need to upload your
+    ecdsa key to your host (e.g. using ssh_setup_github()) or otherwise delete the
+    ECDSA key from ~/.ssh/ecdsa to go back and use your old RSA key.
   - ssh_keygen() now defaults to generating ECDSA (P-521) keys
 
 1.3.2
