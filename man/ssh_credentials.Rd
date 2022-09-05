@@ -13,7 +13,7 @@
 \usage{
 ssh_key_info(host = NULL, auto_keygen = NA)
 
-ssh_keygen(file = ssh_home("id_rsa"))
+ssh_keygen(file = ssh_home("id_ecdsa"))
 
 ssh_setup_github()
 
