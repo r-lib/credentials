@@ -12,7 +12,6 @@ The `credentials` package contains tools for configuring and retrieving SSH and 
 ## Two types of remotes
 
 ```{r, echo=FALSE}
-has_git <- credentials:::has_git_cmd() && .Platform$OS.type != 'windows'
 delete_git_config_on_exit <- !file.exists('~/.gitconfig')
 credentials:::set_default_cred_helper()
 
@@ -65,7 +64,7 @@ To save you from entering your password over and over, git includes a [credentia
  
 To see which helper is configured for a given repo, run:
 
-```{r, eval=has_git}
+```{r}
 credential_helper_get()
 ```
 
@@ -75,7 +74,7 @@ Most `git` installations default to `store` if supported because it is more conv
 
 The `credentials` R package provides a wrapper around the `git credential` command line API for reading and saving credentials. The `git_credential_ask()` function looks up suitable credentials for a given URL from the store. If no credentials are available, it will attempt to prompt the user for credentials and return those instead.
 
-```{r, echo=FALSE, eval=has_git}
+```{r, echo=FALSE}
 # This hack may not work on MacOS server where cred helper is osxkeychain 
 # which always requires user interaction. Hence error=TRUE in the next block.
 example <- list(protocol = "https", host = "example.com",
@@ -83,7 +82,7 @@ example <- list(protocol = "https", host = "example.com",
 credential_approve(example)
 ```
 
-```{r error=TRUE, eval=has_git}
+```{r error=TRUE}
 library(credentials)
 git_credential_ask('https://example.com')
 ```
@@ -99,7 +98,7 @@ In a terminal window this will result in an interactive password prompt. In Wind
 
 <img style="width:690px; padding:0;" src="wincred.png">
 
-```{r, echo=FALSE, eval=has_git}
+```{r, echo=FALSE}
 credential_reject(list(protocol = "https", host = "example.com"))
 ```
 
