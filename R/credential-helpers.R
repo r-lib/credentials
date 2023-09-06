@@ -11,7 +11,7 @@
 credential_helper_list <- function(){
   text <- git_with_sys(c("help", "-a"))
   m <- gregexpr("credential-[^ \t]+", text)
-  regmatches(text, m)[[1]]
+  trimws(regmatches(text, m)[[1]])
 }
 
 #' @export
