@@ -28,6 +28,6 @@ RoxygenNote: 7.2.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 Language: en-US
-URL: https://docs.ropensci.org/credentials/ (website)
-    https://github.com/r-lib/credentials
+URL: https://docs.ropensci.org/credentials/
+    https://r-lib.r-universe.dev/credentials
 BugReports: https://github.com/r-lib/credentials/issues
