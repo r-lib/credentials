@@ -1,3 +1,6 @@
+2.0.1
+  - Precompute vignette due to credential issues on some CRAN machines.
+
 2.0.0
   - ssh_key_info() now returns ECDSA instead of RSA key by default if both exist.
     If you get authentication problems with 'gert' you probably need to upload your

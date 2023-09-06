@@ -11,19 +11,22 @@ The `credentials` package contains tools for configuring and retrieving SSH and 
 
 ## Two types of remotes
 
+```{r, echo=FALSE}
+delete_git_config_on_exit <- !file.exists('~/.gitconfig')
+credentials:::set_default_cred_helper()
+
+library <- function(package){
+  withCallingHandlers(base::library(credentials), 
+                      packageStartupMessage = function(e) {
+                        cat(e$message)
+                        invokeRestart("muffleMessage")
+                      })
+}  
+```
 
 
-
-
-```r
+```{r}
 library(credentials)
-```
-
-```
-## Found git version 2.41.0
-## Supported HTTPS credential helpers: cache, store
-## Found OpenSSH_9.0p1, LibreSSL 3.3.6
-## Default SSH key: /Users/jeroen/.ssh/id_ed25519
 ```
 
 Git supports two types of remotes: SSH and HTTPS. These two use completely distinct authentication systems. 
@@ -61,13 +64,8 @@ To save you from entering your password over and over, git includes a [credentia
  
 To see which helper is configured for a given repo, run:
 
-
-```r
+```{r}
 credential_helper_get()
-```
-
-```
-## [1] "osxkeychain"
 ```
 
 Most `git` installations default to `store` if supported because it is more convenient and secure. However the look and policy of the git credential store for entering and retrieving passwords can vary by system, because it uses the OS native password manager.
@@ -76,29 +74,17 @@ Most `git` installations default to `store` if supported because it is more conv
 
 The `credentials` R package provides a wrapper around the `git credential` command line API for reading and saving credentials. The `git_credential_ask()` function looks up suitable credentials for a given URL from the store. If no credentials are available, it will attempt to prompt the user for credentials and return those instead.
 
+```{r, echo=FALSE}
+# This hack may not work on MacOS server where cred helper is osxkeychain 
+# which always requires user interaction. Hence error=TRUE in the next block.
+example <- list(protocol = "https", host = "example.com",
+  username = "jeroen", password = "supersecret")
+credential_approve(example)
+```
 
-
-
-```r
+```{r error=TRUE}
 library(credentials)
 git_credential_ask('https://example.com')
-```
-
-```
-## $protocol
-## [1] "https"
-## 
-## $host
-## [1] "example.com"
-## 
-## $username
-## [1] "jeroen"
-## 
-## $password
-## [1] "supersecret"
-## 
-## attr(,"class")
-## [1] "git_credential"
 ```
 
 The function `git_credential_update()` looks similar but it behaves slightly different: it first removes existing credentials from the store (if any), then prompts the user for a new username/password, and saves these to the store.
@@ -112,7 +98,9 @@ In a terminal window this will result in an interactive password prompt. In Wind
 
 <img style="width:690px; padding:0;" src="wincred.png">
 
-
+```{r, echo=FALSE}
+credential_reject(list(protocol = "https", host = "example.com"))
+```
 
 ### Setting your GITHUB_PAT
 
@@ -134,23 +122,22 @@ The manual page for `credential_approve` and `credential_reject` has more detail
 
 ## Part 2: Managing SSH Keys
 
-
+```{r, echo = FALSE}
+ssh_key_info <- function(){
+  try({
+    out <- credentials:::ssh_key_info(auto_keygen = FALSE)
+    out$pubkey = paste(substring(out$pubkey, 1, 80), "...")
+    out
+  })
+}
+```
 
 For SSH remotes, git does not handle authentication itself. Git simply shells out to `ssh` on your system and uses your standard user ssh configuration. Hence authenticating with SSH git remotes comes down to setting up your ssh keys and copying these to your profile.
 
 The `credentials` package provides a few utility functions to make this easier. The `ssh_key_info()` function calls out to look up which key `ssh` uses to connect to a given server. This is usually `~/.ssh/id_rsa` unless you have a fancy custom ssh configuration.
 
-
-```r
+```{r}
 ssh_key_info()
-```
-
-```
-## $key
-## [1] "/Users/jeroen/.ssh/id_ed25519"
-## 
-## $pubkey
-## [1] "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILGN+5tybmwKhcxvnwPSKlrp39Ni1gMD0UhV4gCxHg/x ..."
 ```
 
 The output shows both the path to your (private) key as well as the ssh pubkey string. The latter is what you have to enter in your [GitHub profile](https://github.com/settings/ssh/new) to associate this key with your user account. You will then be automatically authenticated when using GitHub SSH remotes.
@@ -163,4 +150,7 @@ To use SSH you need a personal key, which is usually stored in `~/.ssh/id_rsa`. 
 
 You can also generate a key manually elsewhere using the `ssh_keygen()` function.
 
-
+```{r echo=FALSE}
+if(isTRUE(delete_git_config_on_exit))
+  unlink("~/.gitconfig")
+```
