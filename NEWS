@@ -1,3 +1,6 @@
+2.0.3
+  - Fix edge case for when getwd() returns NULL
+
 2.0.1
   - Precompute vignette due to credential issues on some CRAN machines.
 
