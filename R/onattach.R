@@ -77,5 +77,5 @@ set_default_cred_helper <- function(){
 }
 
 is_check <- function(){
-  grepl('credentials.Rcheck', getwd(), fixed = TRUE)
+  isTRUE(grepl('credentials.Rcheck', getwd(), fixed = TRUE))
 }
